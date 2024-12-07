@@ -1,4 +1,4 @@
-package ru.marinalyamina.vetclinic.entities.enums;
+package ru.marinalyamina.vetclinic.models.enums;
 
 public enum AnimalGender {
     Male,

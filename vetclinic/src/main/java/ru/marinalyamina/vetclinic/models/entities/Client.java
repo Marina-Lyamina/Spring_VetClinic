@@ -1,4 +1,4 @@
-package ru.marinalyamina.vetclinic.entities.datamodels;
+package ru.marinalyamina.vetclinic.models.entities;
 
 import jakarta.persistence.*;
 
@@ -17,8 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "employees")
-public class Employee {
+@Table(name = "clients")
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +29,7 @@ public class Employee {
     @JsonBackReference
     private User user;
 
-    @ManyToOne
-    @JsonBackReference
-    private Position position;
-
-    @ManyToMany(mappedBy = "employees")
+    @OneToMany(mappedBy = "client")
     @JsonManagedReference
-    private List<Appointment> appointments;
+    private List<Animal> animals;
 }

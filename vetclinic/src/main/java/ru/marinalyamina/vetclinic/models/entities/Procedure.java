@@ -1,4 +1,4 @@
-package ru.marinalyamina.vetclinic.entities.datamodels;
+package ru.marinalyamina.vetclinic.models.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -17,8 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "positions")
-public class Position {
+@Table(name = "procedures")
+public class Procedure {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +29,12 @@ public class Position {
     @Size(max = 128, message = "Название не должно превышать 128 символов")
     private String name;
 
+    @Column(nullable = false)
+    @NotNull(message = "Введите стоимость")
+    private Integer price;
 
-    @OneToMany(mappedBy = "position")
+
+    @ManyToMany(mappedBy = "procedures")
     @JsonManagedReference
-    private List<Employee> employees;
+    private List<Appointment> appointments;
 }

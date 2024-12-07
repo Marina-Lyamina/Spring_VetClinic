@@ -1,6 +1,6 @@
-package ru.marinalyamina.vetclinic.entities.datamodels;
+package ru.marinalyamina.vetclinic.models.entities;
 
-import ru.marinalyamina.vetclinic.entities.enums.AnimalGender;
+import ru.marinalyamina.vetclinic.models.enums.AnimalGender;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;

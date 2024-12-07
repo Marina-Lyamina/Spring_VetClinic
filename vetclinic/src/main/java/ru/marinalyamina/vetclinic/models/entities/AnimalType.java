@@ -1,4 +1,4 @@
-package ru.marinalyamina.vetclinic.entities.datamodels;
+package ru.marinalyamina.vetclinic.models.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
