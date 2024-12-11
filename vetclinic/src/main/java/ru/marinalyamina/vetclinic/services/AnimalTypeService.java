@@ -24,7 +24,14 @@ public class AnimalTypeService {
         return animalTypeRepository.existsById(id);
     }
 
+    public boolean existsByName(String name) {
+        return animalTypeRepository.existsByName(name);
+    }
+
     public AnimalType create(AnimalType animalType) {
+        if (existsByName(animalType.getName())) {
+            throw new IllegalArgumentException("Вид с таким названием уже существует");
+        }
         return animalTypeRepository.save(animalType);
     }
 

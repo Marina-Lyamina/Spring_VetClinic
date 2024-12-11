@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Виды животных</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1 class="my-4">Список видов животных</h1>
+    <a href="/animaltypes/create" class="btn btn-primary mb-3">Добавить</a>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th style="width: 100%;">Название</th>
+            <th class="text-right" style="white-space: nowrap;"> </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="animalType : ${animalTypes}">
+            <td th:text="${animalType.name}"></td>
+            <td class="text-nowrap text-right">
+                <!--                <a class="btn btn-info" th:href="@{/animaltypes/details/{id}(id=${animalType.id})}">Подробнее</a>-->
+                <a class="btn btn-primary btn-sm mr-1" th:href="@{/animaltypes/update/{id}(id=${animalType.id})}">Редактировать</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/animaltypes/delete/{id}(id=${animalType.id})}">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

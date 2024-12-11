@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменение</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Изменение должности</h1>
+    <form action="/positions/update" th:object="${position}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <div class="form-group">
+            <label for="name">Название:</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+    <br>
+    <a href="/positions/all">Назад к списку</a>
+</div>
+</body>
+</html>

@@ -26,11 +26,19 @@ public class PositionService {
         return positionRepository.existsById(id);
     }
 
+    public boolean existsByName(String name) {
+        return positionRepository.existsByName(name);
+    }
+
     public Position create(Position position) {
+        if (existsByName(position.getName())) {
+            throw new IllegalArgumentException("Должность с таким названием уже существует");
+        }
         return positionRepository.save(position);
     }
 
     public void delete(Long id) {
         positionRepository.deleteById(id);
     }
+
 }

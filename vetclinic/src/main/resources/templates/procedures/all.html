@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список процедур</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1 class="my-4">Список процедур</h1>
+    <a href="/procedures/create" class="btn btn-primary mb-3">Добавить</a>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th style="width: 45%;">Название</th>
+            <th style="width: 25%;">Стоимость, ₽</th>
+            <th class="text-right" style="white-space: nowrap;"> </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="procedure : ${procedures}">
+            <td th:text="${procedure.name}"></td>
+            <td th:text="${procedure.price}"></td>
+            <td class="text-nowrap text-center">
+                <a class="btn btn-info btn-sm mr-1" th:href="@{/procedures/details/{id}(id=${procedure.id})}">Подробнее</a>
+                <a class="btn btn-primary btn-sm mr-1" th:href="@{/procedures/update/{id}(id=${procedure.id})}">Редактировать</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/procedures/delete/{id}(id=${procedure.id})}">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

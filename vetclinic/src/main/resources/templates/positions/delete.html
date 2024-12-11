@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Удаление</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Удаление должности</h1>
+    <p>Вы действительно хотите удалить данную должность?</p>
+
+    <div class="alert alert-warning">
+        <strong>Название:</strong> <span th:text="${procedure.name}"></span>
+    </div>
+
+    <form th:action="@{/positions/delete/{id}(id=${procedure.id})}" method="post">
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a href="/positions/all" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+</body>
+</html>
