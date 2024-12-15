@@ -1,5 +1,6 @@
 package ru.marinalyamina.vetclinic.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -33,8 +34,8 @@ public class Procedure {
     @NotNull(message = "Введите стоимость")
     private Integer price;
 
-
     @ManyToMany(mappedBy = "procedures")
-    @JsonManagedReference
+    //@JsonManagedReference
+    @JsonBackReference
     private List<Appointment> appointments;
 }

@@ -29,7 +29,6 @@ public class Position {
     @Size(max = 128, message = "Название не должно превышать 128 символов")
     private String name;
 
-
     @OneToMany(mappedBy = "position")
     @JsonManagedReference
     private List<Employee> employees;

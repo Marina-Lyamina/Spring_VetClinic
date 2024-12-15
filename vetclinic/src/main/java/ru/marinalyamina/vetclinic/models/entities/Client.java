@@ -24,7 +24,6 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @OneToOne
     @JsonBackReference
     private User user;

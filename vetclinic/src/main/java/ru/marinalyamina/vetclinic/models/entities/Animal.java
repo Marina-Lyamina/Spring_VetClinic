@@ -1,5 +1,6 @@
 package ru.marinalyamina.vetclinic.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.marinalyamina.vetclinic.models.enums.AnimalGender;
 
 import jakarta.persistence.*;
@@ -43,6 +44,9 @@ public class Animal {
     @Size(max = 64, message = "Порода не должна превышать 64 символа")
     private String breed;
 
+    @OneToOne
+    @JsonBackReference
+    private DbFile mainImage;
 
     @ManyToOne
     @JsonBackReference
@@ -55,4 +59,9 @@ public class Animal {
     @OneToMany(mappedBy = "animal")
     @JsonManagedReference
     private List<Appointment> appointments;
+
+    @OneToMany(mappedBy = "animal")
+    //@JsonManagedReference
+    @JsonIgnore
+    private List<Schedule> schedules;
 }

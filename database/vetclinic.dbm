@@ -3,8 +3,8 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="1.1.1" use-changelog="false" max-obj-count="10"
-	 last-position="0,-87" last-zoom="0.65" scene-rect="-100,-480,2065.41,1727.72"
+<dbmodel pgmodeler-ver="1.1.1" use-changelog="false" max-obj-count="15"
+	 last-position="0,-100" last-zoom="0.65" scene-rect="-140,-480,2426.95,1734.72"
 	 default-schema="public" default-owner="postgres"
 	 layers="Default layer"
 	 active-layers="0"
@@ -20,7 +20,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="users" layers="0" collapse-mode="2" max-obj-count="10" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="160" y="100"/>
+	<position x="820" y="-80"/>
 	<column name="id" not-null="true"
 	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
 		<type name="bigint" length="0"/>
@@ -54,15 +54,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="employees" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
+<table name="files" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="620" y="140"/>
+	<position x="880" y="640"/>
 	<column name="id" not-null="true"
 	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
 		<type name="bigint" length="0"/>
 	</column>
-	<constraint name="employees_pk" type="pk-constr" table="public.employees">
+	<column name="path" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="files_pk" type="pk-constr" table="public.files">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -70,7 +73,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="positions" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="633.846" y="-121.538"/>
+	<position x="1600" y="20"/>
 	<column name="id" not-null="true"
 	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
 		<type name="bigint" length="0"/>
@@ -83,25 +86,38 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<relationship name="employees_has_one_users" type="rel11" layers="0"
-	 src-col-pattern="user_id"
-	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
-	 src-fk-pattern="{st}_fk"
-	 custom-color="#ffff7f"
-	 src-table="public.users"
-	 dst-table="public.employees"
-	 src-required="true" dst-required="false"
-	upd-action="CASCADE"
-	del-action="CASCADE">
-	<label ref-type="name-label">
-		<position x="12.5545" y="-5.92641"/>
-	</label>
-</relationship>
+<table name="employees" layers="0" collapse-mode="2" max-obj-count="7" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1400" y="320"/>
+	<column name="id" not-null="true"
+	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="employees_pk" type="pk-constr" table="public.employees">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="main_image_id" index="2"/>
+		<object name="position_id" index="3"/>
+		<object name="user_id" index="1"/>
+	</customidxs>
+	<customidxs object-type="constraint">
+		<object name="employees_uq" index="2"/>
+		<object name="employees_uq1" index="5"/>
+		<object name="files_fk" index="4"/>
+		<object name="positions_fk" index="3"/>
+		<object name="users_fk" index="1"/>
+	</customidxs></table>
 
 <table name="clients" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="160" y="500"/>
+	<position x="220" y="360"/>
 	<column name="id" not-null="true"
 	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
 		<type name="bigint" length="0"/>
@@ -126,10 +142,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</label>
 </relationship>
 
-<table name="animals" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
+<table name="animals" layers="0" collapse-mode="2" max-obj-count="9" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="616.923" y="852.308"/>
+	<position x="300" y="900"/>
 	<column name="id" not-null="true"
 	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
 		<type name="bigint" length="0"/>
@@ -151,18 +167,21 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="animal_type_id" index="5"/>
-		<object name="client_id" index="6"/>
+		<object name="animal_type_id" index="6"/>
+		<object name="client_id" index="7"/>
+		<object name="main_image_id" index="5"/>
 	</customidxs>
 	<customidxs object-type="constraint">
 		<object name="animal_types_fk" index="1"/>
+		<object name="animals_uq" index="4"/>
 		<object name="clients_fk" index="2"/>
+		<object name="files_fk" index="3"/>
 	</customidxs></table>
 
 <table name="animal_types" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="-80" y="840"/>
+	<position x="-120" y="560"/>
 	<column name="id" not-null="true"
 	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
 		<type name="bigint" length="0"/>
@@ -208,13 +227,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="appointments" layers="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="600" y="440"/>
+	<position x="1320" y="920"/>
 	<column name="id" not-null="true"
 	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
 		<type name="bigint" length="0"/>
 	</column>
 	<column name="date" not-null="true">
-		<type name="timestamptz" length="0"/>
+		<type name="timestamp" length="0"/>
 	</column>
 	<column name="reason">
 		<type name="text" length="0"/>
@@ -239,7 +258,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="procedures" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1272.31" y="484.615"/>
+	<position x="1820" y="780"/>
 	<column name="id" not-null="true"
 	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
 		<type name="bigint" length="0"/>
@@ -270,24 +289,20 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</label>
 </relationship>
 
-<table name="files" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
-	<schema name="public"/>
-	<role name="postgres"/>
-	<position x="1360" y="44.6152"/>
-	<column name="id" not-null="true"
-	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
-		<type name="bigint" length="0"/>
-	</column>
-	<column name="name" not-null="true">
-		<type name="text" length="0"/>
-	</column>
-	<column name="path" not-null="true">
-		<type name="text" length="0"/>
-	</column>
-	<constraint name="files_pk" type="pk-constr" table="public.files">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
+<relationship name="employees_has_one_users" type="rel11" layers="0"
+	 src-col-pattern="user_id"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#ffff7f"
+	 src-table="public.users"
+	 dst-table="public.employees"
+	 src-required="true" dst-required="false"
+	upd-action="CASCADE"
+	del-action="CASCADE">
+	<label ref-type="name-label">
+		<position x="12.5545" y="-5.92641"/>
+	</label>
+</relationship>
 
 <relationship name="positions_has_many_employees" type="rel1n" layers="0"
 	 src-col-pattern="position_id"
@@ -337,5 +352,98 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<position x="10.2899" y="-26.7222"/>
 	</label>
 </relationship>
+
+<table name="schedules" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="640" y="400"/>
+	<column name="id" not-null="true"
+	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="date" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="schedules_pk" type="pk-constr" table="public.schedules">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="employee_id" index="1"/>
+	</customidxs>
+	<customidxs object-type="constraint">
+		<object name="employees_fk" index="1"/>
+	</customidxs></table>
+
+<relationship name="employees_has_many_schedules" type="rel1n" layers="0"
+	 src-col-pattern="employee_id"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#55aaff"
+	 src-table="public.employees"
+	 dst-table="public.schedules"
+	 src-required="true" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="animals_has_one_files" type="rel11" layers="0"
+	 src-col-pattern="main_image_id"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#ffff7f"
+	 src-table="public.files"
+	 dst-table="public.animals"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="SET NULL">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="employees_has_one_files" type="rel11" layers="0"
+	 src-col-pattern="main_image_id"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#ffff7f"
+	 src-table="public.files"
+	 dst-table="public.employees"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="SET NULL">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="many_files_has_many_appointments" type="relnn" layers="0"
+	 src-col-pattern="file_id" dst-col-pattern="document_id"
+	 pk-pattern="{gt}_pk" uq-pattern="{gt}_uq"
+	 src-fk-pattern="{st}_fk" dst-fk-pattern="{dt}_fk"
+	 pk-col-pattern="id"
+	 custom-color="#aa0000"
+	 src-table="public.files"
+	 dst-table="public.appointments"
+	 src-required="false" dst-required="false"
+	 table-name="many_files_has_many_appointments"
+	upd-action="CASCADE"
+	del-action="CASCADE">
+	<label ref-type="name-label">
+		<position x="-4.29384" y="-50.4526"/>
+	</label>
+</relationship>
+
+<relationship name="animals_has_many_schedules" type="rel1n" layers="0"
+	 src-col-pattern="animal_id"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#55aaff"
+	 src-table="public.animals"
+	 dst-table="public.schedules"
+	 src-required="false" dst-required="false"/>
 
 </dbmodel>

@@ -1,5 +1,6 @@
 package ru.marinalyamina.vetclinic.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -41,16 +42,22 @@ public class Appointment {
     @Column(columnDefinition = "TEXT")
     private String medicalPrescription;
 
-
     @ManyToOne
     @JsonBackReference
     private Animal animal;
 
     @ManyToMany
-    @JsonManagedReference
+    //@JsonManagedReference
+    @JsonBackReference
     private List<Employee> employees;
 
     @ManyToMany
-    @JsonManagedReference
+    //@JsonManagedReference
+    @JsonIgnore
     private List<Procedure> procedures;
+
+    @ManyToMany
+    //@JsonManagedReference
+    @JsonIgnore
+    private List<DbFile> files;
 }
