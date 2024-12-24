@@ -31,9 +31,11 @@ public class ClientApiController {
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable Long id) {
-        Optional<Client> clientOptional = clientService.getById(id);
+    @GetMapping("/currentUser")
+    public ResponseEntity<Client> getCurrentUser() {
+        Long currentClientId = CurrentUser.clientId;
+
+        Optional<Client> clientOptional = clientService.getById(currentClientId);
 
         if(clientOptional.isEmpty()) {
             return ResponseEntity.badRequest().build();
