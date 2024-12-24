@@ -103,9 +103,20 @@ public class AnimalApiController {
         return ResponseEntity.ok(savedAnimal);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteAnimal(@PathVariable Long id) {
+        Optional<Animal> animalOptional = animalService.getById(id);
 
+        if (animalOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
+        if (!animalOptional.get().getAppointments().isEmpty() || !animalOptional.get().getSchedules().isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
 
+        animalService.delete(id);
 
-    //delete - только у кого нет посещений и записей иначе ошибка
+        return ResponseEntity.ok().build();
+    }
 }
