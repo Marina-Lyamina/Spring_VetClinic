@@ -3,9 +3,12 @@ package ru.marinalyamina.vetclinic.apicontrollers;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.marinalyamina.vetclinic.models.dtos.CreateAnimalDTO;
 import ru.marinalyamina.vetclinic.models.entities.Animal;
+import ru.marinalyamina.vetclinic.models.entities.AnimalType;
 import ru.marinalyamina.vetclinic.models.entities.Client;
 import ru.marinalyamina.vetclinic.services.AnimalService;
+import ru.marinalyamina.vetclinic.services.AnimalTypeService;
 import ru.marinalyamina.vetclinic.services.ClientService;
 import ru.marinalyamina.vetclinic.utils.CurrentUser;
 
@@ -16,10 +19,12 @@ import java.util.Optional;
 @RequestMapping("/api/animals")
 public class AnimalApiController {
     private final AnimalService animalService;
+    private final AnimalTypeService animalTypeService;
     private final ClientService clientService;
 
-    public AnimalApiController(AnimalService animalService, ClientService clientService) {
+    public AnimalApiController(AnimalService animalService, ClientService clientService, AnimalTypeService animalTypeService) {
         this.animalService = animalService;
+        this.animalTypeService = animalTypeService;
         this.clientService = clientService;
     }
 
@@ -50,17 +55,28 @@ public class AnimalApiController {
     }
 
     @PostMapping()
-    public ResponseEntity<Animal> createAnimal(@RequestBody Animal animal) {
+    public ResponseEntity<Animal> createAnimal(@RequestBody CreateAnimalDTO animalDTO) {
         Long currentClientId = CurrentUser.clientId;
 
         Optional<Client> clientOptional = clientService.getById(currentClientId);
-
         if (clientOptional.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        var client = clientOptional.get();
-        animal.setClient(client);
+        Optional<AnimalType> animalTypeOptional = animalTypeService.getById(animalDTO.getAnimalTypeId());
+        if (animalTypeOptional.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        var animal = new Animal();
+
+        animal.setName(animalDTO.getName());
+        animal.setBirthday(animalDTO.getBirthday());
+        animal.setGender(animalDTO.getGender());
+        animal.setBreed(animalDTO.getBreed());
+
+        animal.setClient(clientOptional.get());
+        animal.setAnimalType(animalTypeOptional.get());
 
         Animal createdAnimal = animalService.create(animal);
 
@@ -68,21 +84,21 @@ public class AnimalApiController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Animal> updateAnimal(@PathVariable Long id, @Valid @RequestBody Animal animal) {
+    public ResponseEntity<Animal> updateAnimal(@PathVariable Long id, @RequestBody CreateAnimalDTO animalDTO) {
         Optional<Animal> animalOptional = animalService.getById(id);
 
         if (animalOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        Animal existingAnimal = animalOptional.get();
+        Animal animal = animalOptional.get();
 
-        existingAnimal.setName(animal.getName());
-        existingAnimal.setBirthday(animal.getBirthday());
-        existingAnimal.setGender(animal.getGender());
-        existingAnimal.setBreed(animal.getBreed());
+        animal.setName(animalDTO.getName());
+        animal.setBirthday(animalDTO.getBirthday());
+        animal.setGender(animalDTO.getGender());
+        animal.setBreed(animalDTO.getBreed());
 
-        Animal savedAnimal = animalService.update(existingAnimal);
+        Animal savedAnimal = animalService.update(animal);
 
         return ResponseEntity.ok(savedAnimal);
     }
