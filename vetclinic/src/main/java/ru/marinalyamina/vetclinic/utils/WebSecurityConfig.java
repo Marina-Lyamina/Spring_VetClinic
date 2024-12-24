@@ -23,7 +23,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/**").permitAll()
 
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .csrf((csrf) -> csrf.disable())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())

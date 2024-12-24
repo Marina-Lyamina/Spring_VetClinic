@@ -20,19 +20,22 @@ public class ScheduleApiController {
         this.scheduleService = scheduleService;
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Schedule> getScheduleById(@PathVariable Long id) {
         Optional<Schedule> scheduleOptional = scheduleService.getById(id);
+
         if (scheduleOptional.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
+
         return ResponseEntity.ok(scheduleOptional.get());
     }
 
-    //record - запись передаем id записи и id животного postMethod
     @PostMapping("/animals")
     public ResponseEntity<Long> createAnimalSchedule(@Valid @RequestBody CreateAnimalScheduleDTO animalScheduleDTO) {
         Optional<Schedule> scheduleOptional = scheduleService.getById(animalScheduleDTO.getScheduleId());
+
         if (scheduleOptional.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
@@ -41,9 +44,6 @@ public class ScheduleApiController {
 
         return ResponseEntity.ok(scheduleOptional.get().getId());
     }
-
-
-    //delete - отмена записи id аписи передать и поставить id жиовтного null
 }
 
 

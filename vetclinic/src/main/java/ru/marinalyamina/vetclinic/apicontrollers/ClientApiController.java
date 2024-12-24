@@ -2,14 +2,10 @@ package ru.marinalyamina.vetclinic.apicontrollers;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.marinalyamina.vetclinic.models.dtos.LoginDTO;
+import ru.marinalyamina.vetclinic.models.entities.Animal;
 import ru.marinalyamina.vetclinic.models.entities.Client;
 import ru.marinalyamina.vetclinic.models.entities.User;
 import ru.marinalyamina.vetclinic.models.enums.Role;
@@ -17,8 +13,6 @@ import ru.marinalyamina.vetclinic.services.ClientService;
 import ru.marinalyamina.vetclinic.services.UserService;
 import ru.marinalyamina.vetclinic.utils.CurrentUser;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -36,6 +30,17 @@ public class ClientApiController {
         passwordEncoder = new BCryptPasswordEncoder();
     }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Client> getClientById(@PathVariable Long id) {
+        Optional<Client> clientOptional = clientService.getById(id);
+
+        if(clientOptional.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(clientOptional.get());
+    }
 
     @PostMapping("/login")
     public ResponseEntity<Long> login(@Valid @RequestBody LoginDTO loginDTO) {

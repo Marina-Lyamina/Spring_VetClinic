@@ -23,66 +23,51 @@ public class AnimalApiController {
         this.clientService = clientService;
     }
 
-    /*@GetMapping("/currentUser")
-    public List<Animal> getAll() {
-        Long currentUserId = CurrentUser.id;
-        //getAllForUser - все жив для конк пользователя + у животных должны быть предстоящие посещения
-
-        return animalService.getAll();
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Animal>> getAllByUserId(@PathVariable Long userId) {
-        List<Animal> animals = animalService.getAnimalsByUserId(userId);
-        if (animals.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(animals);
-    }*/
-
+    // TODO: фотка
     @GetMapping("/currentUser")
-    public ResponseEntity<List<Animal>> getAllAnimalsWithFutureAppointmentsByUserId() {
-        Long currentUserId = CurrentUser.id;
-        List<Animal> animals = animalService.getAnimalsWithUpcomingSchedulesByUserId(currentUserId);
+    public ResponseEntity<List<Animal>> getAnimalsForCurrentUser() {
+        Long currentClientId = CurrentUser.clientId;
+
+        List<Animal> animals = animalService.getAnimalsForClient(currentClientId);
+
         if (animals.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
+
         return ResponseEntity.ok(animals);
     }
 
-    //getById все визиты подключить
-
+    // TODO: фотка
     @GetMapping("/{id}")
     public ResponseEntity<Animal> getAnimalById(@PathVariable Long id) {
-        Optional<Animal> animal = animalService.getById(id);
-        if (animal.isPresent()) {
-            return ResponseEntity.ok(animal.get());
-        } else {
+        Optional<Animal> animalOptional = animalService.getById(id);
+
+        if (animalOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+
+        return ResponseEntity.ok(animalOptional.get());
     }
 
-    //create Long currentUserId = CurrentUser.id;
-    @PostMapping("/currentUser")
-    public ResponseEntity<Animal> createAnimal(@Valid @RequestBody Animal animal) {
-        Long currentUserId = CurrentUser.id;
+    @PostMapping()
+    public ResponseEntity<Animal> createAnimal(@RequestBody Animal animal) {
+        Long currentClientId = CurrentUser.clientId;
 
-        Optional<Client> currentClientOpt = clientService.getById(currentUserId);
+        Optional<Client> clientOptional = clientService.getById(currentClientId);
 
-        if (currentClientOpt.isEmpty()) {
+        if (clientOptional.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        Client currentClient = currentClientOpt.get();
-        animal.setClient(currentClient);
+        var client = clientOptional.get();
+        animal.setClient(client);
 
         Animal createdAnimal = animalService.create(animal);
 
         return ResponseEntity.ok(createdAnimal);
     }
 
-    //update
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Animal> updateAnimal(@PathVariable Long id, @Valid @RequestBody Animal animal) {
         Optional<Animal> animalOptional = animalService.getById(id);
 
@@ -96,8 +81,6 @@ public class AnimalApiController {
         existingAnimal.setBirthday(animal.getBirthday());
         existingAnimal.setGender(animal.getGender());
         existingAnimal.setBreed(animal.getBreed());
-        existingAnimal.setAnimalType(animal.getAnimalType());
-        //existingAnimal.setMainImage(animal.getMainImage());
 
         Animal savedAnimal = animalService.update(existingAnimal);
 

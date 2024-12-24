@@ -5,22 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2ff29b1-ff11-40fb-93fd-76b72072b2cf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/enums/Role.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/utils/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/AnimalApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/AnimalApiController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/ClientApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/ClientApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/LoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/LoginDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/repositories/ClientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/repositories/ClientRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/EmployeeApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/EmployeeApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/PositionApiController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/ScheduleApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/ScheduleApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/repositories/AnimalRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/repositories/AnimalRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/repositories/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/ClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/AnimalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/AnimalService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/AnimalTypeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/AnimalTypeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/AppointmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/AppointmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/PositionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/PositionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/ProcedureService.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/ProcedureService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/ScheduleService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/utils/CurrentUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/utils/CurrentUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/utils/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/utils/WebSecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +56,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.VetclinicApplication.executor": "Run",
+    "Application.VetclinicApplication.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -98,5 +99,16 @@
       <updated>1734786781681</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/AnimalApiController.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

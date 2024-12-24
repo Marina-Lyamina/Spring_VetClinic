@@ -25,34 +25,38 @@ public class EmployeeApiController {
         this.scheduleService = scheduleService;
     }
 
-    //getAll название и должность фотка
+    // TODO: фотка
     @GetMapping()
     public ResponseEntity<List<Employee>> getAllEmployees() {
         List<Employee> employees = employeeService.getAll();
+
         if (employees.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
+
         return ResponseEntity.ok(employees);
     }
 
-    //getByID все + описание + расписание
-
+    // TODO: фотка
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
         Optional<Employee> employee = employeeService.getById(id);
-        if (employee.isPresent()) {
-            return ResponseEntity.ok(employee.get());
-        } else {
+
+        if (employee.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+
+        return ResponseEntity.ok(employee.get());
     }
 
     @GetMapping("/{id}/free-schedules")
-    public ResponseEntity<List<ScheduleDTO>> getFreeSchedules(@PathVariable Long id) {
-        List<ScheduleDTO> schedules = scheduleService.getSchedulesForEmployee(id);
+    public ResponseEntity<List<ScheduleDTO>> getEmployeeFreeSchedules(@PathVariable Long id) {
+        List<ScheduleDTO> schedules = scheduleService.getEmployeeFreeSchedules(id);
+
         if (schedules.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
+
         return ResponseEntity.ok(schedules);
     }
 }
