@@ -9,7 +9,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import ru.marinalyamina.vetclinic.models.enums.Role;
+
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
 
 @Entity
@@ -18,7 +24,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,10 +60,40 @@ public class User {
     @Column(length = 32, nullable = false)
     @NotEmpty(message = "Введите Логин")
     @Size(max = 32, message = "Логин не должен превышать 32 символа")
-    private String login;
+    private String username;
 
-    @Column(length = 32, nullable = false)
+    @Column(length = 256, nullable = false)
     @NotEmpty(message = "Введите Пароль")
-    @Size(max = 32, message = "Пароль не должен превышать 32 символа")
+    @Size(max = 256, message = "Пароль не должен превышать 256 символов")
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
 }

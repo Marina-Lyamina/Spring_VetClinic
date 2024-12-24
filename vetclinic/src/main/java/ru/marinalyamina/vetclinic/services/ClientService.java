@@ -10,16 +10,22 @@ import java.util.Optional;
 
 @Service
 public class ClientService {
+
     private final ClientRepository clientRepository;
 
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
+
     public List<Client> getAll() { return clientRepository.findAll();}
 
     public Optional<Client> getById(Long id) {
         return clientRepository.findById(id);
+    }
+
+    public Optional<Client> getByUsername(String username) {
+        return clientRepository.findByUser_Username(username);
     }
 
     public boolean existsById(Long id) {
@@ -32,9 +38,5 @@ public class ClientService {
 
     public void delete(Long id) {
         clientRepository.deleteById(id);
-    }
-
-    public Optional<Client> getByLogin(String login) {
-        return clientRepository.findByUser_Login(login);
     }
 }
