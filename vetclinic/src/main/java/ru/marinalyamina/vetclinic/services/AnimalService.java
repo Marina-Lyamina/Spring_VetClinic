@@ -65,4 +65,9 @@ public class AnimalService {
 
         return animals;
     }
+
+    public Animal update(Animal animal) {
+        return animalRepository.save(animal);
+    }
+
 }

@@ -82,6 +82,31 @@ public class AnimalApiController {
     }
 
     //update
+    @PostMapping("/{id}")
+    public ResponseEntity<Animal> updateAnimal(@PathVariable Long id, @Valid @RequestBody Animal animal) {
+        Optional<Animal> animalOptional = animalService.getById(id);
+
+        if (animalOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Animal existingAnimal = animalOptional.get();
+
+        existingAnimal.setName(animal.getName());
+        existingAnimal.setBirthday(animal.getBirthday());
+        existingAnimal.setGender(animal.getGender());
+        existingAnimal.setBreed(animal.getBreed());
+        existingAnimal.setAnimalType(animal.getAnimalType());
+        //existingAnimal.setMainImage(animal.getMainImage());
+
+        Animal savedAnimal = animalService.update(existingAnimal);
+
+        return ResponseEntity.ok(savedAnimal);
+    }
+
+
+
+
 
     //delete - только у кого нет посещений и записей иначе ошибка
 }
