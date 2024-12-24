@@ -1,7 +1,9 @@
 package ru.marinalyamina.vetclinic.repositories;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import ru.marinalyamina.vetclinic.models.entities.Employee;
 
-public interface EmployeeRepository extends CrudRepository<Employee, Long> {
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 }

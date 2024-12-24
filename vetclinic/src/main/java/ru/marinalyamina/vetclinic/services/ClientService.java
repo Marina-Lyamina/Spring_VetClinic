@@ -16,7 +16,7 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public List<Client> getAll() { return (List<Client>) clientRepository.findAll();}
+    public List<Client> getAll() { return clientRepository.findAll();}
 
     public Optional<Client> getById(Long id) {
         return clientRepository.findById(id);
@@ -32,5 +32,9 @@ public class ClientService {
 
     public void delete(Long id) {
         clientRepository.deleteById(id);
+    }
+
+    public Optional<Client> getByLogin(String login) {
+        return clientRepository.findByUser_Login(login);
     }
 }

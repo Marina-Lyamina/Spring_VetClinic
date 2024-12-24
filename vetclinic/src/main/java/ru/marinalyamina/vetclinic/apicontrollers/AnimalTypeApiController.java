@@ -17,7 +17,7 @@ public class AnimalTypeApiController {
         this.animalTypeService = animalTypeService;
     }
 
-    @GetMapping("all")
+    @GetMapping()
     public List<AnimalType> getAll() {
         return animalTypeService.getAll();
     }

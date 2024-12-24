@@ -16,7 +16,7 @@ public class ProcedureService {
         this.procedureRepository = procedureRepository;
     }
 
-    public List<Procedure> getAll() { return (List<Procedure>) procedureRepository.findAll();}
+    public List<Procedure> getAll() { return procedureRepository.findAll();}
 
     public Optional<Procedure> getById(Long id) {
         return procedureRepository.findById(id);

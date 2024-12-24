@@ -1,5 +1,6 @@
 package ru.marinalyamina.vetclinic.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -31,6 +32,7 @@ public class AnimalType {
 
 
     @OneToMany(mappedBy = "animalType")
-    @JsonManagedReference
+    //@JsonManagedReference
+    @JsonBackReference
     private List<Animal> animals;
 }

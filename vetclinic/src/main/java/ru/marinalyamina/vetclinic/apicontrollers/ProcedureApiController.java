@@ -17,8 +17,8 @@ public class ProcedureApiController {
         this.procedureService = procedureService;
     }
 
-    @GetMapping("all")
-    public List<Procedure> getAll() {
+    @GetMapping()
+    public List<Procedure> getAllProcedures() {
         return procedureService.getAll();
     }
 }

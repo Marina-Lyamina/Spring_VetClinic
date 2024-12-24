@@ -16,7 +16,7 @@ public class PositionService {
         this.positionRepository = positionRepository;
     }
 
-    public List<Position> getAll() { return (List<Position>) positionRepository.findAll();}
+    public List<Position> getAll() { return positionRepository.findAll();}
 
     public Optional<Position> getById(Long id) {
         return positionRepository.findById(id);

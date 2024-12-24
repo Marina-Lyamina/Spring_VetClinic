@@ -16,7 +16,7 @@ public class AppointmentService {
         this.appointmentRepository = appointmentRepository;
     }
 
-    public List<Appointment> getAll() { return (List<Appointment>) appointmentRepository.findAll();}
+    public List<Appointment> getAll() { return appointmentRepository.findAll();}
 
     public Optional<Appointment> getById(Long id) {
         return appointmentRepository.findById(id);

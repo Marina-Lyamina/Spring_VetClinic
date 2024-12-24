@@ -47,8 +47,8 @@ public class Appointment {
     private Animal animal;
 
     @ManyToMany
-    //@JsonManagedReference
-    @JsonBackReference
+    @JsonManagedReference
+    //@JsonBackReference
     private List<Employee> employees;
 
     @ManyToMany

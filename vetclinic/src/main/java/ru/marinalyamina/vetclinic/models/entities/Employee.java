@@ -38,7 +38,8 @@ public class Employee {
 
     @ManyToOne
     //@JsonBackReference
-    @JsonIgnore
+    @JsonManagedReference
+    //@JsonIgnore
     private Position position;
 
     @ManyToMany(mappedBy = "employees")
@@ -47,7 +48,6 @@ public class Employee {
     private List<Appointment> appointments;
 
     @OneToMany(mappedBy = "employee")
-    //@JsonManagedReference
-    @JsonIgnore
+    @JsonBackReference
     private List<Schedule> schedules;
 }

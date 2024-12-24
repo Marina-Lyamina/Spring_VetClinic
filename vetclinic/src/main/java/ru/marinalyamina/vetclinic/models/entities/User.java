@@ -50,4 +50,14 @@ public class User {
     @Pattern(regexp = "^[0-9]*$", message = "Номер телефона может включать только цифры")
     @Size(max = 15, message = "Номер телефона не должен превышать 15 цифр")
     private String phone;
+
+    @Column(length = 32, nullable = false)
+    @NotEmpty(message = "Введите Логин")
+    @Size(max = 32, message = "Логин не должен превышать 32 символа")
+    private String login;
+
+    @Column(length = 32, nullable = false)
+    @NotEmpty(message = "Введите Пароль")
+    @Size(max = 32, message = "Пароль не должен превышать 32 символа")
+    private String password;
 }

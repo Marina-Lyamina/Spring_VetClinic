@@ -16,7 +16,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAll() { return (List<User>) userRepository.findAll();}
+    public List<User> getAll() { return userRepository.findAll();}
 
     public Optional<User> getById(Long id) {
         return userRepository.findById(id);

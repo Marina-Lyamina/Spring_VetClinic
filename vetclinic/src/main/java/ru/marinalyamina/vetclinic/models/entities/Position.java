@@ -1,5 +1,6 @@
 package ru.marinalyamina.vetclinic.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -30,6 +31,7 @@ public class Position {
     private String name;
 
     @OneToMany(mappedBy = "position")
-    @JsonManagedReference
+    //@JsonManagedReference
+    @JsonBackReference
     private List<Employee> employees;
 }

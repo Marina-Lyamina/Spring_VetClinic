@@ -17,8 +17,8 @@ public class PositionApiController {
         this.positionService = positionService;
     }
 
-    @GetMapping("all")
-    public List<Position> getAll() {
+    @GetMapping()
+    public List<Position> getAllPositions() {
         return positionService.getAll();
     }
 }

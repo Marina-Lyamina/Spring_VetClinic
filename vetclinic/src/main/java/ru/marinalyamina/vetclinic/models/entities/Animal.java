@@ -49,7 +49,8 @@ public class Animal {
     private DbFile mainImage;
 
     @ManyToOne
-    @JsonBackReference
+    //@JsonBackReference
+    @JsonManagedReference
     private AnimalType animalType;
 
     @ManyToOne
@@ -61,7 +62,6 @@ public class Animal {
     private List<Appointment> appointments;
 
     @OneToMany(mappedBy = "animal")
-    //@JsonManagedReference
-    @JsonIgnore
+    @JsonManagedReference
     private List<Schedule> schedules;
 }

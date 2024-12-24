@@ -1,6 +1,7 @@
 package ru.marinalyamina.vetclinic.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,7 @@ public class Schedule {
     private LocalDateTime date;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
     private Employee employee;
 
     @ManyToOne
