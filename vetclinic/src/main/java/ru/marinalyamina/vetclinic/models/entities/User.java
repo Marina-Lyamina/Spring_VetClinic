@@ -64,7 +64,7 @@ public class User implements UserDetails {
 
     @Column(length = 256, nullable = false)
     @NotEmpty(message = "Введите Пароль")
-    @Size(max = 256, message = "Пароль не должен превышать 256 символов")
+    @Size(max = 32, message = "Пароль не должен превышать 32 символов")
     private String password;
 
     @Enumerated(EnumType.STRING)

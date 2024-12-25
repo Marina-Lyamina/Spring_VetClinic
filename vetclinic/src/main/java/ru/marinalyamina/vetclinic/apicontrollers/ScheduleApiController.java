@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.marinalyamina.vetclinic.models.dtos.CreateAnimalScheduleDTO;
 import ru.marinalyamina.vetclinic.models.entities.Schedule;
-import ru.marinalyamina.vetclinic.services.AnimalService;
 import ru.marinalyamina.vetclinic.services.ScheduleService;
 
 import java.util.Optional;

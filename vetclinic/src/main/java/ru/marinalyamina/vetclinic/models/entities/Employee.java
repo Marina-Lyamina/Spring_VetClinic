@@ -33,7 +33,7 @@ public class Employee {
     private User user;
 
     @OneToOne
-    @JsonBackReference
+    @JsonManagedReference
     private DbFile mainImage;
 
     @ManyToOne

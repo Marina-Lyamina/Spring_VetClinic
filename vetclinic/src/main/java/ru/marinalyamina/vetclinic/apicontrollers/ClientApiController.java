@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.marinalyamina.vetclinic.models.dtos.LoginDTO;
-import ru.marinalyamina.vetclinic.models.entities.Animal;
+import ru.marinalyamina.vetclinic.models.dtos.UpdateUserDTO;
 import ru.marinalyamina.vetclinic.models.entities.Client;
 import ru.marinalyamina.vetclinic.models.entities.User;
 import ru.marinalyamina.vetclinic.models.enums.Role;
@@ -40,6 +40,31 @@ public class ClientApiController {
         if(clientOptional.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
+
+        return ResponseEntity.ok(clientOptional.get());
+    }
+
+    @PutMapping("/currentUser")
+    public ResponseEntity<Client> updateCurrentUser(@Valid @RequestBody UpdateUserDTO userDTO) {
+        Long currentClientId = CurrentUser.clientId;
+
+        Optional<Client> clientOptional = clientService.getById(currentClientId);
+
+        if(clientOptional.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        var clientUser = clientOptional.get().getUser();
+
+        clientUser.setSurname(userDTO.getSurname());
+        clientUser.setName(userDTO.getName());
+        clientUser.setPatronymic(userDTO.getPatronymic());
+        clientUser.setBirthday(userDTO.getBirthday());
+        clientUser.setEmail(userDTO.getEmail());
+        clientUser.setPhone(userDTO.getPhone());
+        clientUser.setUsername(userDTO.getUsername());
+
+        userService.update(clientUser);
 
         return ResponseEntity.ok(clientOptional.get());
     }
