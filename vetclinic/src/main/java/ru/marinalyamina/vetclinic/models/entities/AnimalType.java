@@ -32,7 +32,6 @@ public class AnimalType {
 
 
     @OneToMany(mappedBy = "animalType")
-    //@JsonManagedReference
     @JsonBackReference
     private List<Animal> animals;
 }

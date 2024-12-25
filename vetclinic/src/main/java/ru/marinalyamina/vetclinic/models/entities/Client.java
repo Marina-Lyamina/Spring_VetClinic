@@ -25,7 +25,7 @@ public class Client {
     private Long id;
 
     @OneToOne
-    @JsonBackReference
+    @JsonManagedReference
     private User user;
 
     @OneToMany(mappedBy = "client")

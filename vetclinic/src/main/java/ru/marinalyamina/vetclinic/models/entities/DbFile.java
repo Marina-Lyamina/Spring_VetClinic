@@ -1,15 +1,15 @@
 package ru.marinalyamina.vetclinic.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
+import ru.marinalyamina.vetclinic.utils.FileManager;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,6 +35,11 @@ public class DbFile {
     private String content;
 
     @ManyToMany(mappedBy = "files")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Appointment> appointments;
+
+
+    public void initContent() throws IOException {
+        content = FileManager.getFile(name);
+    }
 }

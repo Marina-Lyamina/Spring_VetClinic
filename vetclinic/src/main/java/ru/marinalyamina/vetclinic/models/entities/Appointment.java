@@ -12,6 +12,8 @@ import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -48,16 +50,21 @@ public class Appointment {
 
     @ManyToMany
     @JsonManagedReference
-    //@JsonBackReference
     private List<Employee> employees;
 
     @ManyToMany
-    //@JsonManagedReference
-    @JsonIgnore
+    @JsonManagedReference
     private List<Procedure> procedures;
 
     @ManyToMany
-    //@JsonManagedReference
-    @JsonIgnore
+    @JsonManagedReference
     private List<DbFile> files;
+
+
+    public void initFiles() throws IOException {
+        for (var file : files)
+        {
+            file.initContent();
+        }
+    }
 }

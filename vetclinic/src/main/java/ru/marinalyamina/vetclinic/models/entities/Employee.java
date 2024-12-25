@@ -1,6 +1,5 @@
 package ru.marinalyamina.vetclinic.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -10,6 +9,8 @@ import lombok.Setter;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.io.IOException;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,6 @@ public class Employee {
     private String description;
 
     @OneToOne
-    //@JsonBackReference
     @JsonManagedReference
     private User user;
 
@@ -37,17 +37,21 @@ public class Employee {
     private DbFile mainImage;
 
     @ManyToOne
-    //@JsonBackReference
     @JsonManagedReference
-    //@JsonIgnore
     private Position position;
 
     @ManyToMany(mappedBy = "employees")
-    //@JsonManagedReference
     @JsonBackReference
     private List<Appointment> appointments;
 
     @OneToMany(mappedBy = "employee")
     @JsonBackReference
     private List<Schedule> schedules;
+
+
+    public void initFiles() throws IOException {
+        if (mainImage != null){
+            mainImage.initContent();
+        }
+    }
 }

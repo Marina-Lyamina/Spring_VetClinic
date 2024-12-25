@@ -5,14 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2ff29b1-ff11-40fb-93fd-76b72072b2cf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/CreateFileDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/repositories/FileRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/FileService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/VetclinicApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/VetclinicApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/AnimalApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/AnimalApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/EmployeeApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/EmployeeApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Animal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/AnimalType.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/AnimalType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Appointment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/DbFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/DbFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/utils/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/utils/FileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Position.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Procedure.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Procedure.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

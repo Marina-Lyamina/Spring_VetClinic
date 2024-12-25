@@ -25,7 +25,6 @@ public class EmployeeApiController {
         this.scheduleService = scheduleService;
     }
 
-    // TODO: фотка
     @GetMapping()
     public ResponseEntity<List<Employee>> getAllEmployees() {
         List<Employee> employees = employeeService.getAll();
@@ -34,19 +33,32 @@ public class EmployeeApiController {
             return ResponseEntity.noContent().build();
         }
 
+        try{
+            for(var employee : employees){
+                employee.initFiles();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+
         return ResponseEntity.ok(employees);
     }
 
-    // TODO: фотка
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
-        Optional<Employee> employee = employeeService.getById(id);
+        Optional<Employee> employeeOptional = employeeService.getById(id);
 
-        if (employee.isEmpty()) {
+        if (employeeOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(employee.get());
+        try{
+            employeeOptional.get().initFiles();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+
+        return ResponseEntity.ok(employeeOptional.get());
     }
 
     @GetMapping("/{id}/free-schedules")

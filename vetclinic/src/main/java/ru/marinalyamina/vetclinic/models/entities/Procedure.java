@@ -35,7 +35,6 @@ public class Procedure {
     private Integer price;
 
     @ManyToMany(mappedBy = "procedures")
-    //@JsonManagedReference
     @JsonBackReference
     private List<Appointment> appointments;
 }

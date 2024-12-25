@@ -1,9 +1,7 @@
 package ru.marinalyamina.vetclinic.apicontrollers;
 
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import ru.marinalyamina.vetclinic.models.dtos.CreateAnimalDTO;
 import ru.marinalyamina.vetclinic.models.dtos.CreateFileDTO;
 import ru.marinalyamina.vetclinic.models.entities.Animal;
@@ -38,7 +36,6 @@ public class AnimalApiController {
         this.fileService = fileService;
     }
 
-    // TODO: фотка
     @GetMapping("/currentUser")
     public ResponseEntity<List<Animal>> getAnimalsForCurrentUser() {
         Long currentClientId = CurrentUser.clientId;
@@ -49,16 +46,29 @@ public class AnimalApiController {
             return ResponseEntity.noContent().build();
         }
 
+        try{
+           for(var animal : animals){
+               animal.initFiles();
+           }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+
         return ResponseEntity.ok(animals);
     }
 
-    // TODO: фотка
     @GetMapping("/{id}")
     public ResponseEntity<Animal> getAnimalById(@PathVariable Long id) {
         Optional<Animal> animalOptional = animalService.getById(id);
 
         if (animalOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
+        }
+
+        try{
+            animalOptional.get().initFiles();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
 
         return ResponseEntity.ok(animalOptional.get());

@@ -14,6 +14,8 @@ import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -45,11 +47,10 @@ public class Animal {
     private String breed;
 
     @OneToOne
-    @JsonBackReference
+    @JsonManagedReference
     private DbFile mainImage;
 
     @ManyToOne
-    //@JsonBackReference
     @JsonManagedReference
     private AnimalType animalType;
 
@@ -64,4 +65,11 @@ public class Animal {
     @OneToMany(mappedBy = "animal")
     @JsonManagedReference
     private List<Schedule> schedules;
+
+
+    public void initFiles() throws IOException {
+        if (mainImage != null){
+            mainImage.initContent();
+        }
+    }
 }
