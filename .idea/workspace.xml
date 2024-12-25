@@ -5,7 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2ff29b1-ff11-40fb-93fd-76b72072b2cf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/ClientApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/ClientApiController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/CreateFileDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/repositories/FileRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/FileService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/VetclinicApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/VetclinicApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/AnimalApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/AnimalApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/DbFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/DbFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/utils/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/utils/FileManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +47,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.VetclinicApplication.executor": "Debug",
+    "Application.VetclinicApplication.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",

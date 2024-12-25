@@ -1,19 +1,55 @@
 package ru.marinalyamina.vetclinic.utils;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 public class FileManager {
-    public static String rootDir = "C:\\TEMP";
+    public static String rootDir = System.getProperty("user.dir") + "\\files";;
 
-    public static String getFilePath(String path) throws IOException {
-        Path filePath = Paths.get(rootDir, path);
-        if (Files.exists(filePath)) {
-            return filePath.toAbsolutePath().toString(); // абсолютный путь
-        } else {
-            throw new IOException("Файл не найден: " + filePath.toString());
+
+    public static void checkRootDir() {
+        File dir = new File(rootDir);
+
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
+    }
+
+    public static String createFileName(String fileExtensions){
+        if (!fileExtensions.startsWith(".")){
+            fileExtensions = "." + fileExtensions;
+        }
+        return UUID.randomUUID() + fileExtensions;
+    }
+
+    public static void saveFile(String fileName, byte[] fileContent) throws IOException {
+        Path filePath = Paths.get(rootDir, fileName);
+        Files.write(filePath, fileContent);
+    }
+
+    public static void saveFile(String fileName, String fileContent) throws IOException {
+        Path filePath = Paths.get(rootDir, fileName);
+        Files.write(filePath, Base64.decodeBase64(fileContent));
+    }
+
+    public static String getFile(String fileName) throws IOException {
+        Path filePath = Paths.get(rootDir, fileName);
+
+        File file = new File(filePath.toUri());
+        byte[] fileContent = Files.readAllBytes(file.toPath());
+
+        return Base64.encodeBase64String(fileContent);
+    }
+
+    public static void deleteFile(String fileName) throws IOException {
+        Path filePath = Paths.get(rootDir, fileName);
+        File file = new File(filePath.toUri());
+        file.delete();
     }
 }

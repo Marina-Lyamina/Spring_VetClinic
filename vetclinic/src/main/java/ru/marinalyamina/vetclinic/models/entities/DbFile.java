@@ -3,11 +3,14 @@ package ru.marinalyamina.vetclinic.models.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -23,8 +26,13 @@ public class DbFile {
     private Long id;
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    @NotEmpty(message = "Введите путь")
     private String name;
+
+    @Column(nullable = false)
+    private LocalDateTime date;
+
+    @Transient
+    private String content;
 
     @ManyToMany(mappedBy = "files")
     @JsonManagedReference
