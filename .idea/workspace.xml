@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2ff29b1-ff11-40fb-93fd-76b72072b2cf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/UpdateUserDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/ClientApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/ClientApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/ScheduleApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/apicontrollers/ScheduleApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/CreateAnimalDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/CreateAnimalDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/CreateFileDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/CreateFileDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/LoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/LoginDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/ScheduleDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/dtos/ScheduleDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vetclinic/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/enums/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/models/enums/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,10 +49,11 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Disk/Java/SpringBootCoursework/InsuranceAgency",
+    "last_opened_file_path": "C:/Disk/Java/Spring_VetClinic",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0"
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default"
   }
 }]]></component>
   <component name="RunManager">
@@ -95,5 +86,16 @@
       <updated>1734786781681</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vetclinic/src/main/java/ru/marinalyamina/vetclinic/services/UserService.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

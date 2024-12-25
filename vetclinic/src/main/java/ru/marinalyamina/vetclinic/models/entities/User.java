@@ -57,7 +57,7 @@ public class User implements UserDetails {
     @Size(max = 15, message = "Номер телефона не должен превышать 15 цифр")
     private String phone;
 
-    @Column(length = 32, nullable = false)
+    @Column(length = 32, unique = true, nullable = false)
     @NotEmpty(message = "Введите Логин")
     @Size(max = 32, message = "Логин не должен превышать 32 символа")
     private String username;
