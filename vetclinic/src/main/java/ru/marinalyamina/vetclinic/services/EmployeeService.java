@@ -16,7 +16,6 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-
     public List<Employee> getAll() { return employeeRepository.findAll();}
 
     public Optional<Employee> getById(Long id) {
@@ -28,7 +27,22 @@ public class EmployeeService {
     }
 
     public Employee create(Employee employee) {
+        if (employee.getDescription().isBlank()) {
+            employee.setDescription(null);
+        }
         return employeeRepository.save(employee);
+    }
+
+    public void update(Employee employee) {
+        if (employeeRepository.existsById(employee.getId())) {
+            if (employee.getDescription().isBlank()) {
+                employee.setDescription(null);
+            }
+            employeeRepository.save(employee);
+        } else {
+            throw new IllegalArgumentException("Сотрудник не найден");
+        }
+
     }
 
     public void delete(Long id) {

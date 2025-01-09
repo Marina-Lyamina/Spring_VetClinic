@@ -14,7 +14,6 @@ public class AnimalTypeService {
 
     public AnimalTypeService(AnimalTypeRepository animalTypeRepository) {this.animalTypeRepository = animalTypeRepository; }
 
-
     public List<AnimalType> getAll() { return animalTypeRepository.findAll();}
 
     public Optional<AnimalType> getById(Long id) {

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Подробнее</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+<div th:replace="~{main_menu :: navigation}"></div>
+
+<div class="container">
+    <h1 class="my-4">Сотрудник</h1>
+    <div class="row">
+        <!-- Левая колонка для фотографии -->
+        <div class="col-md-4">
+            <img th:src="@{${imagePath}}" class="img-fluid rounded" alt="Фото сотрудника">
+        </div>
+        <!-- Правая колонка для информации о сотруднике -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>ФИО:</strong> <span th:text="${employee.user.getFIO()}"></span></p>
+                    <p><strong>Должность:</strong> <span th:text="${employee.position.name}"></span></p>
+                    <p><strong>Дата рождения:</strong> <span th:text="${#temporals.format(employee.user.birthday, 'dd.MM.yyyy')}"></span></p>
+                    <p><strong>Номер телефона:</strong> <span th:text="${employee.user.phone}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${employee.user.email}"></span></p>
+                    <p><strong>Описание:</strong></p>
+                    <p><span th:text="${employee.description}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/employees/all">Назад к списку сотрудников</a>
+    </div>
+</div>
+</body>
+</html>

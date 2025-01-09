@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Подробнее</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+<div th:replace="~{main_menu :: navigation}"></div>
+
+<div class="container">
+    <h1 class="my-4">Клиент</h1>
+    <div class="card">
+        <div class="card-body">
+            <p><strong>ФИО:</strong> <span th:text="${client.user.getFIO()}"></span></p>
+            <p><strong>Дата рождения:</strong> <span th:text="${#temporals.format(client.user.birthday, 'dd.MM.yyyy')}"></span></p>
+            <p><strong>Номер телефона:</strong> <span th:text="${client.user.phone}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${client.user.email}"></span></p>
+        </div>
+    </div>
+    <h2 class="my-4">Питомцы клиента</h2>
+    <a th:href="@{/animals/create(clientId=${client.id})}" class="btn btn-outline-success mb-3">Добавить питомца</a>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>#</th>
+            <th>Кличка</th>
+            <th>Вид</th>
+            <th>Порода</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="animal, iterStat : ${client.animals}">
+            <td th:text="${iterStat.count}"></td>
+            <td style="width: 25%;" th:text="${animal.name}"></td>
+            <td style="width: 25%;" th:text="${animal.animalType.name}"></td>
+            <td style="width: 25%;" th:text="${animal.breed}"></td>
+            <td class="text-nowrap text-right">
+                <a class="btn btn-outline-info" th:href="@{/animals/details/{id}(id=${animal.id})}">Подробнее</a>
+                <a class="btn btn-outline-primary" th:href="@{/animals/update/{id}(id=${animal.id})}">Редактировать</a>
+                <a class="btn btn-outline-danger" th:href="@{/animals/delete/{id}(id=${animal.id})}">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="mt-4">
+        <a href="/clients/all">Назад к списку клиентов</a>
+    </div>
+</div>
+</body>
+</html>

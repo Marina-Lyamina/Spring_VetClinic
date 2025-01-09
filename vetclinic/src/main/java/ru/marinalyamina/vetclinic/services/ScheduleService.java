@@ -18,7 +18,6 @@ public class ScheduleService {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
-
     public Optional<Schedule> getById(Long id) {
         return scheduleRepository.findById(id);
     }

@@ -2,14 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Удаление вида животного</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <title>Удаление</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
+<div th:replace="~{main_menu :: navigation}"></div>
+
 <div class="container">
-    <h1>Удаление вида животного</h1>
+    <h1 class="my-4">Удаление вида животного</h1>
     <p>Вы действительно хотите удалить данный вид животного?</p>
 
     <div class="alert alert-warning">
@@ -17,8 +20,8 @@
     </div>
 
     <form th:action="@{/animaltypes/delete/{id}(id=${animalType.id})}" method="post">
-        <button type="submit" class="btn btn-danger">Удалить</button>
-        <a href="/animaltypes/all" class="btn btn-secondary">Отмена</a>
+        <button type="submit" class="btn btn-outline-danger">Удалить</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='/animaltypes/all'">Отмена</button>
     </form>
 </div>
 </body>

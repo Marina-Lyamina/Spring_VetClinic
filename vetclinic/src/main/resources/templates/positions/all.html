@@ -7,24 +7,32 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
+
+<div th:replace="~{main_menu :: navigation}"></div>
+
 <div class="container">
-    <h1 class="my-4">Список должностей</h1>
-    <a href="/positions/create" class="btn btn-primary mb-3">Добавить</a>
+    <h1 class="my-4">Должности сотрудников</h1>
+    <a href="/positions/create" class="btn btn-outline-success mb-3">Добавить</a>
     <table class="table table-bordered">
         <thead class="thead-light">
         <tr>
+            <th>#</th>
             <th style="width: 100%;">Название</th>
+            <th>Кол-во сотрудников</th>
             <th class="text-right" style="white-space: nowrap;"> </th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="position : ${positions}">
+        <tr th:each="position, iterStat : ${positions}">
+            <td th:text="${iterStat.count}"></td>
             <td th:text="${position.name}"></td>
+            <td th:text="${position.employees.size()}"></td>
             <td class="text-nowrap text-right">
-                <!--                <a class="btn btn-info" th:href="@{/positions/details/{id}(id=${position.id})}">Подробнее</a>-->
-                <a class="btn btn-primary btn-sm mr-1" th:href="@{/positions/update/{id}(id=${position.id})}">Редактировать</a>
-                <a class="btn btn-danger btn-sm" th:href="@{/positions/delete/{id}(id=${position.id})}">Удалить</a>
+                <a class="btn btn-outline-info" th:href="@{/positions/details/{id}(id=${position.id})}">Подробнее</a>
+                <a class="btn btn-outline-primary" th:href="@{/positions/update/{id}(id=${position.id})}">Редактировать</a>
+                <a class="btn btn-outline-danger" th:href="@{/positions/delete/{id}(id=${position.id})}">Удалить</a>
             </td>
         </tr>
         </tbody>

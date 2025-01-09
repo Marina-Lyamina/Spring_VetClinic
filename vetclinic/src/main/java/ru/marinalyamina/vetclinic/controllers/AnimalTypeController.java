@@ -19,7 +19,7 @@ public class AnimalTypeController {
         this.animalTypeService = animalTypeService;
     }
 
-    @GetMapping("all")
+    @GetMapping("/all")
     public String getAll(Model model) {
         model.addAttribute("animalTypes", animalTypeService.getAll());
         return "animaltypes/all";

@@ -2,6 +2,7 @@ package ru.marinalyamina.vetclinic.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
 import lombok.AllArgsConstructor;
@@ -9,9 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
-
 
 @Entity
 @AllArgsConstructor
@@ -26,8 +25,8 @@ public class Position {
     private Long id;
 
     @Column(length = 128, nullable = false)
-    @NotEmpty(message = "Введите Название")
-    @Size(max = 128, message = "Название не должно превышать 128 символов")
+    @NotEmpty(message = "Введите название")
+    @Size(max = 128, message = "Слишком длинное название")
     private String name;
 
     @OneToMany(mappedBy = "position")

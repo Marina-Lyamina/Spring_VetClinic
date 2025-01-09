@@ -33,8 +33,8 @@ public class Animal {
     private Long id;
 
     @Column(length = 64, nullable = false)
-    @NotEmpty(message = "Введите Имя")
-    @Size(max = 64, message = "Имя не должно превышать 64 символа")
+    @NotEmpty(message = "Введите кличку")
+    @Size(max = 64, message = "Слишком длинная кличка")
     private String name;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, fallbackPatterns = {"dd.MM.yyyy"})
@@ -43,7 +43,7 @@ public class Animal {
     private AnimalGender gender;
 
     @Column(length = 64)
-    @Size(max = 64, message = "Порода не должна превышать 64 символа")
+    @Size(max = 64, message = "Слишком длинное название породы")
     private String breed;
 
     @OneToOne

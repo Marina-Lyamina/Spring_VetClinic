@@ -2,6 +2,7 @@ package ru.marinalyamina.vetclinic.models.entities;
 
 import jakarta.persistence.*;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
@@ -28,7 +29,8 @@ public class Employee {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @OneToOne
+    @Valid
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
     private User user;
 
@@ -47,7 +49,6 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     @JsonBackReference
     private List<Schedule> schedules;
-
 
     public void initFiles() throws IOException {
         if (mainImage != null){

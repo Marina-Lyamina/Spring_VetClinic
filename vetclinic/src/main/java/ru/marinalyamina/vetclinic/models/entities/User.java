@@ -17,7 +17,6 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,12 +30,12 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(length = 32, nullable = false)
-    @NotEmpty(message = "Введите Фамилию")
+    @NotEmpty(message = "Введите фамилию")
     @Size(max = 32, message = "Фамилия не должна превышать 32 символа")
     private String surname;
 
     @Column(length = 32, nullable = false)
-    @NotEmpty(message = "Введите Имя")
+    @NotEmpty(message = "Введите имя")
     @Size(max = 32, message = "Имя не должно превышать 32 символа")
     private String name;
 
@@ -48,29 +47,31 @@ public class User implements UserDetails {
     private LocalDate birthday;
 
     @Column(length = 128, unique = true)
-    @Email(message = "Некорректный ввод для Email")
+    @Email(message = "Некорректный ввод Email")
     @Size(max = 128, message = "Email не должен превышать 128 символов")
     private String email;
 
-    @Column(length = 15, unique = true)
+    @Column(length = 11, unique = true)
     @Pattern(regexp = "^[0-9]*$", message = "Номер телефона может включать только цифры")
-    @Size(max = 15, message = "Номер телефона не должен превышать 15 цифр")
+    @Size(max = 11, message = "Номер телефона не должен превышать 11 цифр")
     private String phone;
 
     @Column(length = 32, unique = true, nullable = false)
-    @NotEmpty(message = "Введите Логин")
+    @NotEmpty(message = "Введите логин")
     @Size(max = 32, message = "Логин не должен превышать 32 символа")
     private String username;
 
     @Column(length = 256, nullable = false)
-    @NotEmpty(message = "Введите Пароль")
+    @NotEmpty(message = "Введите пароль")
     @Size(max = 256, message = "Пароль не должен превышать 256 символов")
     private String password;
 
+    public String getFIO() {
+        return surname + " " + name + (patronymic != null ? " " + patronymic : "");
+    }
+
     @Enumerated(EnumType.STRING)
     private Role role;
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

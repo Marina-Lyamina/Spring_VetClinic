@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Подробнее</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+<div th:replace="~{main_menu :: navigation}"></div>
+
+<div class="container">
+    <h1 class="my-4">Питомец</h1>
+    <div class="row">
+        <!-- Левая колонка для фотографии -->
+        <div class="col-md-4">
+            <img th:src="@{${imagePath}}" class="img-fluid rounded" alt="Фото питомца">
+        </div>
+        <!-- Правая колонка для информации о питомце -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Кличка:</strong> <span th:text="${animal.name}"></span></p>
+                    <p><strong>Вид:</strong> <span th:text="${animal.animalType.name}"></span></p>
+                    <p><strong>Дата рождения:</strong> <span th:text="${#temporals.format(animal.birthday, 'dd.MM.yyyy')}"></span></p>
+                    <p><strong>Пол:</strong> <span th:text="${animal.gender.getRussianString()}"></span></p>
+                    <p><strong>Порода:</strong> <span th:text="${animal.breed}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="my-4">Прошедшие приёмы</h2>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>#</th>
+            <th style="width: 15%;">Дата</th>
+            <th style="width: 48%;">Сотрудник, должность</th>
+            <th> </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="appointment, iterStat : ${animal.appointments}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${#temporals.format(appointment.date, 'dd.MM.yyyy HH:mm')}"></td>
+            <td>
+                <ul class="list-unstyled">
+                    <li th:each="employee : ${appointment.employees}">
+                        <span th:text="${employee.user.getFIO()}"></span>,
+                        <span th:text="${#strings.toLowerCase(employee.position.name)}"></span>
+                    </li>
+                </ul>
+            </td>
+            <td class="text-nowrap text-center">
+                <a class="btn btn-outline-info" th:href="@{/appointments/details/{id}(id=${appointment.id})}">Подробнее</a>
+                <a class="btn btn-outline-primary" th:href="@{/appointments/update/{id}(id=${appointment.id})}">Редактировать</a>
+                <a class="btn btn-outline-danger" th:href="@{/appointments/delete/{id}(id=${appointment.id})}">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-4">
+        <a th:href="@{/clients/details/{id}(id=${animal.client.id})}">Назад к клиенту</a>
+    </div>
+</div>
+</body>
+</html>

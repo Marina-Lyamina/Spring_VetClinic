@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
-
 
 @Entity
 @AllArgsConstructor
@@ -26,10 +24,9 @@ public class AnimalType {
     private Long id;
 
     @Column(length = 128, nullable = false)
-    @NotEmpty(message = "Введите Название")
+    @NotEmpty(message = "Введите название")
     @Size(max = 128, message = "Название не должно превышать 128 символов")
     private String name;
-
 
     @OneToMany(mappedBy = "animalType")
     @JsonBackReference

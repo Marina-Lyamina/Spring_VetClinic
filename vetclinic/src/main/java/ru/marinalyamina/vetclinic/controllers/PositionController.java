@@ -19,7 +19,7 @@ public class PositionController {
         this.positionService = positionService;
     }
 
-    @GetMapping("all")
+    @GetMapping("/all")
     public String getAll(Model model) {
         model.addAttribute("positions", positionService.getAll());
         return "positions/all";
@@ -89,7 +89,7 @@ public class PositionController {
             return "redirect:/positions/all";
         }
 
-        model.addAttribute("procedure", optionalPosition.get());
+        model.addAttribute("position", optionalPosition.get());
         return "positions/delete";
     }
 

@@ -1,10 +1,15 @@
 package ru.marinalyamina.vetclinic.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import ru.marinalyamina.vetclinic.models.dtos.CreateAnimalDTO;
 import ru.marinalyamina.vetclinic.models.entities.Animal;
+import ru.marinalyamina.vetclinic.models.entities.Client;
 import ru.marinalyamina.vetclinic.models.entities.Schedule;
 import ru.marinalyamina.vetclinic.repositories.AnimalRepository;
+import ru.marinalyamina.vetclinic.repositories.AnimalTypeRepository;
+import ru.marinalyamina.vetclinic.repositories.ClientRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,7 +23,6 @@ public class AnimalService {
     public AnimalService(AnimalRepository animalRepository) {
         this.animalRepository = animalRepository;
     }
-
 
     public List<Animal> getAll() { return animalRepository.findAll();}
 
@@ -59,11 +63,21 @@ public class AnimalService {
     }
 
     public Animal create(Animal animal) {
+        if (animal.getBreed().isBlank()) {
+            animal.setBreed(null);
+        }
         return animalRepository.save(animal);
     }
 
     public Animal update(Animal animal) {
         return animalRepository.save(animal);
+    }
+
+    public void updateAnimal(Animal animal){
+        if (animal.getBreed().isBlank()) {
+            animal.setBreed(null);
+        }
+        animalRepository.save(animal);
     }
 
     public void delete(Long id) {

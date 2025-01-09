@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+    /*private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -90,5 +90,5 @@ public class UserController {
             userService.delete(id);
         }
         return "redirect:/users/all";
-    }
+    }*/
 }

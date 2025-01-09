@@ -19,7 +19,7 @@ public class ProcedureController {
         this.procedureService = procedureService;
     }
 
-    @GetMapping("all")
+    @GetMapping("/all")
     public String getAll(Model model) {
         model.addAttribute("procedures", procedureService.getAll());
         return "procedures/all";

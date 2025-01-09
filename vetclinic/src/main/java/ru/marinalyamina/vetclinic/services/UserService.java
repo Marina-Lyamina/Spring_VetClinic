@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import ru.marinalyamina.vetclinic.models.entities.Client;
 import ru.marinalyamina.vetclinic.models.entities.User;
 import ru.marinalyamina.vetclinic.repositories.UserRepository;
 
@@ -20,7 +21,6 @@ public class UserService implements UserDetailsService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
 
     public List<User> getAll() { return userRepository.findAll();}
 
@@ -42,11 +42,17 @@ public class UserService implements UserDetailsService {
     }
 
     public User create(User user) {
+        cleanEmptyFields(user);
         return userRepository.save(user);
     }
 
-    public User update(User user) {
-        return userRepository.save(user);
+    public void update(User user) {
+        if (userRepository.existsById(user.getId())) {
+            cleanEmptyFields(user);
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("Пользователь не найден");
+        }
     }
 
     public void delete(Long id) {
@@ -62,5 +68,17 @@ public class UserService implements UserDetailsService {
                         Collections.singleton(user.getRole())
                 ))
                 .orElseThrow(() -> new UsernameNotFoundException("Невозможно найти пользователя" + username));
+    }
+
+    private void cleanEmptyFields(User user) {
+        if (user.getEmail().isBlank()) {
+            user.setEmail(null);
+        }
+        if (user.getPhone().isBlank()) {
+            user.setPhone(null);
+        }
+        if (user.getPatronymic().isBlank()) {
+            user.setPatronymic(null);
+        }
     }
 }

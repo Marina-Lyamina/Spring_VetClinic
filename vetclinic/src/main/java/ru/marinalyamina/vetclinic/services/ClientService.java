@@ -17,7 +17,6 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-
     public List<Client> getAll() { return clientRepository.findAll();}
 
     public Optional<Client> getById(Long id) {
@@ -34,6 +33,14 @@ public class ClientService {
 
     public Client create(Client client) {
         return clientRepository.save(client);
+    }
+
+    public void update(Client client) {
+        if (clientRepository.existsById(client.getId())) {
+            clientRepository.save(client);
+        } else {
+            throw new IllegalArgumentException("Клиент не найден");
+        }
     }
 
     public void delete(Long id) {
