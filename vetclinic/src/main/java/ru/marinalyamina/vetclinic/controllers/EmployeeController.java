@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.marinalyamina.vetclinic.models.dtos.UpdateEmployeeDTO;
 import ru.marinalyamina.vetclinic.models.dtos.UpdateUserDTO;
+import ru.marinalyamina.vetclinic.models.entities.Client;
 import ru.marinalyamina.vetclinic.models.entities.Employee;
 import ru.marinalyamina.vetclinic.models.entities.Position;
 import ru.marinalyamina.vetclinic.models.entities.User;
@@ -17,6 +18,7 @@ import ru.marinalyamina.vetclinic.services.PositionService;
 import ru.marinalyamina.vetclinic.services.UserService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -72,26 +74,28 @@ public class EmployeeController {
             return "employees/create";
         }
 
-        try {
-            var user = employee.getUser();
-            var encodePassword = passwordEncoder.encode(user.getPassword());
-            user.setPassword(encodePassword);
-            user.setRole(Role.ROLE_OPERATOR);
-            userService.create(user);
-            employeeService.create(employee);
-        } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("user.surname", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.name", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.patronymic", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.birthday", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.email", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.phone", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.username", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.password", "error.employee", e.getMessage());
+        User user = employee.getUser();
+        if (userService.existsByPhone(user.getPhone())) {
+            bindingResult.rejectValue("user.phone", "error.employee", "Такой телефон уже использован");
+        }
+        if (userService.existsByEmail(user.getEmail())) {
+            bindingResult.rejectValue("user.email", "error.employee", "Такой email уже использован");
+        }
+        if (userService.existsByUsername(user.getUsername())) {
+            bindingResult.rejectValue("user.username", "error.employee", "Придумайте другой логин");
+        }
+
+        if (bindingResult.hasErrors()) {
             List<Position> positions = positionService.getAll();
             model.addAttribute("positions", positions);
             return "employees/create";
         }
+
+        var encodePassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodePassword);
+        user.setRole(Role.ROLE_OPERATOR);
+        userService.create(user);
+        employeeService.create(employee);
 
         return "redirect:/employees/all";
     }
@@ -111,48 +115,52 @@ public class EmployeeController {
 
 
     @PostMapping("/update")
-    public String updatePost(@ModelAttribute("employee") @Valid UpdateEmployeeDTO employeeDTO, BindingResult bindingResult)
+    public String updatePost(@ModelAttribute("employee") @Valid UpdateEmployeeDTO employeeDTO, BindingResult bindingResult, Model model)
     {
         if (bindingResult.hasErrors()) {
+            List<Position> positions = positionService.getAll();
+            model.addAttribute("positions", positions);
+            return "employees/update";
+        }
+        Optional<Employee> existingEmployeeOpt = employeeService.getById(employeeDTO.getId());
+        if (existingEmployeeOpt.isEmpty()) {
+            return "redirect:/employees/all";
+        }
+
+        Employee existingEmployee = existingEmployeeOpt.get();
+        User user = existingEmployee.getUser();
+
+        if (!Objects.equals(user.getPhone(), employeeDTO.getUser().getPhone()) && userService.existsByPhone(employeeDTO.getUser().getPhone())) {
+            bindingResult.rejectValue("user.phone", "error.client", "Такой телефон уже использован");
+        }
+        if (!Objects.equals(user.getEmail(), employeeDTO.getUser().getEmail()) && userService.existsByEmail(employeeDTO.getUser().getEmail())) {
+            bindingResult.rejectValue("user.email", "error.client", "Такой email уже использован");
+        }
+        if (!Objects.equals(user.getUsername(), employeeDTO.getUser().getUsername()) && userService.existsByUsername(employeeDTO.getUser().getUsername())) {
+            bindingResult.rejectValue("user.username", "error.client", "Придумайте другой логин");
+        }
+
+        if (bindingResult.hasErrors()) {
+            List<Position> positions = positionService.getAll();
+            model.addAttribute("positions", positions);
             return "employees/update";
         }
 
-        try {
-            Optional<Employee> existingEmployeeOpt = employeeService.getById(employeeDTO.getId());
-            if (existingEmployeeOpt.isEmpty()) {
-                bindingResult.rejectValue("id", "error.employee", "Сотрудник не найден");
-                return "employees/update";
-            }
+        UpdateUserDTO updatedUserDTO = employeeDTO.getUser();
 
-            Employee existingEmployee = existingEmployeeOpt.get();
-            User existingUser = existingEmployee.getUser();
+        user.setSurname(updatedUserDTO.getSurname());
+        user.setName(updatedUserDTO.getName());
+        user.setPatronymic(updatedUserDTO.getPatronymic());
+        user.setBirthday(updatedUserDTO.getBirthday());
+        user.setEmail(updatedUserDTO.getEmail());
+        user.setPhone(updatedUserDTO.getPhone());
+        user.setUsername(updatedUserDTO.getUsername());
 
-            UpdateUserDTO updatedUserDTO = employeeDTO.getUser();
+        existingEmployee.setDescription(employeeDTO.getDescription());
+        existingEmployee.setPosition(employeeDTO.getPosition());
 
-            existingUser.setSurname(updatedUserDTO.getSurname());
-            existingUser.setName(updatedUserDTO.getName());
-            existingUser.setPatronymic(updatedUserDTO.getPatronymic());
-            existingUser.setBirthday(updatedUserDTO.getBirthday());
-            existingUser.setEmail(updatedUserDTO.getEmail());
-            existingUser.setPhone(updatedUserDTO.getPhone());
-            existingUser.setUsername(updatedUserDTO.getUsername());
-
-            existingEmployee.setDescription(employeeDTO.getDescription());
-            existingEmployee.setPosition(employeeDTO.getPosition());
-
-            userService.update(existingUser);
-            employeeService.update(existingEmployee);
-
-        } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("user.surname", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.name", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.patronymic", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.birthday", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.email", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.phone", "error.employee", e.getMessage());
-            bindingResult.rejectValue("user.username", "error.employee", e.getMessage());
-            return "employees/update";
-        }
+        userService.update(user);
+        employeeService.update(existingEmployee);
 
         return "redirect:/employees/all";
     }

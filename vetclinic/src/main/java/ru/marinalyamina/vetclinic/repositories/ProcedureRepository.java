@@ -6,4 +6,5 @@ import ru.marinalyamina.vetclinic.models.entities.Procedure;
 
 @Repository
 public interface ProcedureRepository extends JpaRepository<Procedure, Long> {
+    boolean existsByName(String name);
 }

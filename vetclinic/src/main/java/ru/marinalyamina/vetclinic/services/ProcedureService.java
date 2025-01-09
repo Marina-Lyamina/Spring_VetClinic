@@ -26,6 +26,8 @@ public class ProcedureService {
         return procedureRepository.existsById(id);
     }
 
+    public boolean existsByName(String name) { return procedureRepository.existsByName(name);};
+
     public Procedure create(Procedure procedure) {
         return procedureRepository.save(procedure);
     }

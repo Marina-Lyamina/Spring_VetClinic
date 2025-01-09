@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import ru.marinalyamina.vetclinic.models.entities.Client;
 import ru.marinalyamina.vetclinic.models.entities.User;
 import ru.marinalyamina.vetclinic.repositories.UserRepository;
 
@@ -39,6 +38,18 @@ public class UserService implements UserDetailsService {
 
     public boolean existsById(Long id) {
         return userRepository.existsById(id);
+    }
+
+    public boolean existsByPhone(String phone) {
+        return userRepository.existsByPhone(phone);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
     }
 
     public User create(User user) {

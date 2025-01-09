@@ -31,9 +31,6 @@ public class PositionService {
     }
 
     public Position create(Position position) {
-        if (existsByName(position.getName())) {
-            throw new IllegalArgumentException("Должность с таким названием уже существует");
-        }
         return positionRepository.save(position);
     }
 

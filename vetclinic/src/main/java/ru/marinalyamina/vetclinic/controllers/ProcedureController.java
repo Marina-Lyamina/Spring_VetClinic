@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.marinalyamina.vetclinic.models.entities.Procedure;
 import ru.marinalyamina.vetclinic.services.ProcedureService;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -47,12 +48,12 @@ public class ProcedureController {
             return "procedures/create";
         }
 
-        try {
-            procedureService.create(procedure);
-        } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("name", "error.procedure", e.getMessage());
+        if (procedureService.existsByName(procedure.getName())) {
+            bindingResult.rejectValue("name", "error.procedure", "Услуга с таким названием уже существует");
             return "procedures/create";
         }
+
+        procedureService.create(procedure);
 
         return "redirect:/procedures/all";
     }
@@ -72,12 +73,18 @@ public class ProcedureController {
         if (bindingResult.hasErrors()) {
             return "procedures/update";
         }
-        try {
-            procedureService.create(procedure);
-        } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("name", "error.procedure", e.getMessage());
+
+        Optional<Procedure> existingProcedureOpt = procedureService.getById(procedure.getId());
+        if (existingProcedureOpt.isEmpty()) {
+            return "redirect:/procedures/all";
+        }
+
+        if (!Objects.equals(procedure.getName(), existingProcedureOpt.get().getName()) && procedureService.existsByName(procedure.getName())) {
+            bindingResult.rejectValue("name", "error.procedure", "Услуга с таким названием уже существует");
             return "procedures/update";
         }
+
+        procedureService.create(procedure);
 
         return "redirect:/procedures/all";
     }
@@ -88,13 +95,36 @@ public class ProcedureController {
         if (optionalProcedure.isEmpty()) {
             return "redirect:/procedures/all";
         }
-        model.addAttribute("procedure", optionalProcedure.get());
+
+        Procedure procedure = optionalProcedure.get();
+        boolean hasAppointments = procedure.getAppointments() != null && !procedure.getAppointments().isEmpty();
+
+        model.addAttribute("procedure", procedure);
+        model.addAttribute("hasAppointments", hasAppointments);
+
         return "procedures/delete";
     }
 
     @PostMapping("/delete/{id}")
-    public String deletePost(@PathVariable("id") Long id) {
-        procedureService.delete(id);
+    public String deletePost(@PathVariable("id") Long id, Model model) {
+        Optional<Procedure> optionalProcedure = procedureService.getById(id);
+        if (optionalProcedure.isEmpty()) {
+            return "redirect:/procedures/all";
+        }
+
+        Procedure procedure = optionalProcedure.get();
+
+        if (procedure.getAppointments() != null && !procedure.getAppointments().isEmpty()) {
+            model.addAttribute("procedure", procedure);
+            model.addAttribute("hasAppointments", true);
+            return "procedures/delete";
+        }
+
+        if (procedureService.existsById(id)) {
+            procedureService.delete(id);
+        }
+
         return "redirect:/procedures/all";
     }
+
 }

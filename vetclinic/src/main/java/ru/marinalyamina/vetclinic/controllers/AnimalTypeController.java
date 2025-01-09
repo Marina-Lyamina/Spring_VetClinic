@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.marinalyamina.vetclinic.models.entities.AnimalType;
 import ru.marinalyamina.vetclinic.services.AnimalTypeService;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -47,12 +48,12 @@ public class AnimalTypeController {
             return "animaltypes/create";
         }
 
-        try {
-            animalTypeService.create(animalType);
-        } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("name", "error.animalType", e.getMessage());
+        if (animalTypeService.existsByName(animalType.getName())) {
+            bindingResult.rejectValue("name", "error.animalType", "Вид с таким названием уже существует");
             return "animaltypes/create";
         }
+
+        animalTypeService.create(animalType);
 
         return "redirect:/animaltypes/all";
     }
@@ -72,12 +73,18 @@ public class AnimalTypeController {
         if (bindingResult.hasErrors()) {
             return "animaltypes/update";
         }
-        try {
-            animalTypeService.create(animalType);
-        } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("name", "error.animalType", e.getMessage());
+
+        Optional<AnimalType> existingAnimalTypeOpt = animalTypeService.getById(animalType.getId());
+        if (existingAnimalTypeOpt.isEmpty()) {
+            return "redirect:/animaltypes/all";
+        }
+
+        if (!Objects.equals(animalType.getName(), existingAnimalTypeOpt.get().getName()) && animalTypeService.existsByName(animalType.getName())) {
+            bindingResult.rejectValue("name", "error.animalType", "Вид с таким названием уже существует");
             return "animaltypes/update";
         }
+
+        animalTypeService.create(animalType);
 
         return "redirect:/animaltypes/all";
     }
@@ -90,11 +97,25 @@ public class AnimalTypeController {
         }
 
         model.addAttribute("animalType", optionalAnimalType.get());
+        model.addAttribute("hasAnimals", optionalAnimalType.get().getAnimals() != null && !optionalAnimalType.get().getAnimals().isEmpty());
+
         return "animaltypes/delete";
     }
 
     @PostMapping("/delete/{id}")
-    public String deletePost(@PathVariable("id") Long id) {
+    public String deletePost(@PathVariable("id") Long id, Model model) {
+        Optional<AnimalType> optionalAnimalType = animalTypeService.getById(id);
+        if(optionalAnimalType.isEmpty()){
+            return "redirect:/animaltypes/all";
+        }
+
+        AnimalType animalType = optionalAnimalType.get();
+        if(animalType.getAnimals() != null && !animalType.getAnimals().isEmpty()){
+            model.addAttribute("animalType", animalType);
+            model.addAttribute("hasAnimals", true);
+            return "animaltypes/delete";
+        }
+
         if(animalTypeService.existsById(id)){
             animalTypeService.delete(id);
         }

@@ -29,9 +29,6 @@ public class AnimalTypeService {
     }
 
     public AnimalType create(AnimalType animalType) {
-        if (existsByName(animalType.getName())) {
-            throw new IllegalArgumentException("Вид с таким названием уже существует");
-        }
         return animalTypeRepository.save(animalType);
     }
 

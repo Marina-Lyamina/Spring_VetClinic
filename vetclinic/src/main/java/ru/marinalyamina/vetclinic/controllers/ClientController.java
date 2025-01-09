@@ -14,6 +14,7 @@ import ru.marinalyamina.vetclinic.models.enums.Role;
 import ru.marinalyamina.vetclinic.services.ClientService;
 import ru.marinalyamina.vetclinic.services.UserService;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -57,24 +58,27 @@ public class ClientController {
             return "clients/create";
         }
 
-        try {
-            var user = client.getUser();
-            var encodePassword = passwordEncoder.encode(user.getPassword());
-            user.setPassword(encodePassword);
-            user.setRole(Role.ROLE_USER);
-            userService.create(user);
-            clientService.create(client);
-        } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("user.surname", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.name", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.patronymic", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.birthday", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.email", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.phone", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.username", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.password", "error.client", e.getMessage());
+        User user = client.getUser();
+        if (userService.existsByPhone(user.getPhone())) {
+            bindingResult.rejectValue("user.phone", "error.client", "Такой телефон уже использован");
+        }
+        if (userService.existsByEmail(user.getEmail())) {
+            bindingResult.rejectValue("user.email", "error.client", "Такой email уже использован");
+        }
+        if (userService.existsByUsername(user.getUsername())) {
+            bindingResult.rejectValue("user.username", "error.client", "Придумайте другой логин");
+        }
+
+        if (bindingResult.hasErrors()) {
             return "clients/create";
         }
+
+        var encodePassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodePassword);
+        user.setRole(Role.ROLE_USER);
+
+        userService.create(user);
+        clientService.create(client);
 
         return "redirect:/clients/all";
     }
@@ -95,39 +99,40 @@ public class ClientController {
             return "clients/update";
         }
 
-        try {
-            Optional<Client> existingClientOpt = clientService.getById(clientDTO.getId());
-            if (existingClientOpt.isEmpty()) {
-                bindingResult.rejectValue("id", "error.client", "Клиент не найден");
-                return "clients/update";
-            }
+        Optional<Client> existingClientOpt = clientService.getById(clientDTO.getId());
+        if (existingClientOpt.isEmpty()) {
+            return "redirect:/clients/all";
+        }
 
-            Client existingClient = existingClientOpt.get();
-            User existingUser = existingClient.getUser();
+        Client existingClient = existingClientOpt.get();
+        User user = existingClient.getUser();
 
-            UpdateUserDTO updatedUserDTO = clientDTO.getUser();
+        if (!Objects.equals(user.getPhone(), clientDTO.getUser().getPhone()) && userService.existsByPhone(clientDTO.getUser().getPhone())) {
+            bindingResult.rejectValue("user.phone", "error.client", "Такой телефон уже использован");
+        }
+        if (!Objects.equals(user.getEmail(), clientDTO.getUser().getEmail()) && userService.existsByEmail(clientDTO.getUser().getEmail())) {
+            bindingResult.rejectValue("user.email", "error.client", "Такой email уже использован");
+        }
+        if (!Objects.equals(user.getUsername(), clientDTO.getUser().getUsername()) && userService.existsByUsername(clientDTO.getUser().getUsername())) {
+            bindingResult.rejectValue("user.username", "error.client", "Придумайте другой логин");
+        }
 
-            existingUser.setSurname(updatedUserDTO.getSurname());
-            existingUser.setName(updatedUserDTO.getName());
-            existingUser.setPatronymic(updatedUserDTO.getPatronymic());
-            existingUser.setBirthday(updatedUserDTO.getBirthday());
-            existingUser.setEmail(updatedUserDTO.getEmail());
-            existingUser.setPhone(updatedUserDTO.getPhone());
-            existingUser.setUsername(updatedUserDTO.getUsername());
-
-            userService.update(existingUser);
-            clientService.update(existingClient);
-
-        } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("user.surname", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.name", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.patronymic", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.birthday", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.email", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.phone", "error.client", e.getMessage());
-            bindingResult.rejectValue("user.username", "error.client", e.getMessage());
+        if (bindingResult.hasErrors()) {
             return "clients/update";
         }
+
+        UpdateUserDTO updatedUserDTO = clientDTO.getUser();
+
+        user.setSurname(updatedUserDTO.getSurname());
+        user.setName(updatedUserDTO.getName());
+        user.setPatronymic(updatedUserDTO.getPatronymic());
+        user.setBirthday(updatedUserDTO.getBirthday());
+        user.setEmail(updatedUserDTO.getEmail());
+        user.setPhone(updatedUserDTO.getPhone());
+        user.setUsername(updatedUserDTO.getUsername());
+
+        userService.update(user);
+        clientService.update(existingClient);
 
         return "redirect:/clients/all";
     }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.marinalyamina.vetclinic.models.entities.Position;
 import ru.marinalyamina.vetclinic.services.PositionService;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -47,12 +48,12 @@ public class PositionController {
             return "positions/create";
         }
 
-        try {
-            positionService.create(position);
-        } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("name", "error.position", e.getMessage());
+        if (positionService.existsByName(position.getName())) {
+            bindingResult.rejectValue("name", "error.position", "Должность с таким названием уже существует");
             return "positions/create";
         }
+
+        positionService.create(position);
 
         return "redirect:/positions/all";
     }
@@ -72,29 +73,50 @@ public class PositionController {
         if (bindingResult.hasErrors()) {
             return "positions/update";
         }
-        try {
-            positionService.create(position);
-        } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("name", "error.position", e.getMessage());
+
+        Optional<Position> existingPositionOpt = positionService.getById(position.getId());
+        if (existingPositionOpt.isEmpty()) {
+            return "redirect:/positions/all";
+        }
+
+        if (!Objects.equals(position.getName(), existingPositionOpt.get().getName()) && positionService.existsByName(position.getName())) {
+            bindingResult.rejectValue("name", "error.position", "Должность с таким названием уже существует");
             return "positions/update";
         }
+
+        positionService.create(position);
 
         return "redirect:/positions/all";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteGet(Model model, @PathVariable("id") Long id) {
+    public String deleteGet(@PathVariable("id") Long id, Model model) {
         Optional<Position> optionalPosition = positionService.getById(id);
         if(optionalPosition.isEmpty()){
             return "redirect:/positions/all";
         }
 
         model.addAttribute("position", optionalPosition.get());
+        model.addAttribute("hasEmployees", optionalPosition.get().getEmployees() != null && !optionalPosition.get().getEmployees().isEmpty());
+
         return "positions/delete";
     }
 
     @PostMapping("/delete/{id}")
-    public String deletePost(@PathVariable("id") Long id) {
+    public String deletePost(@PathVariable("id") Long id, Model model) {
+        Optional<Position> optionalPosition = positionService.getById(id);
+        if(optionalPosition.isEmpty()){
+            return "redirect:/positions/all";
+        }
+
+        Position position = optionalPosition.get();
+
+        if(position.getEmployees() != null && !position.getEmployees().isEmpty()){
+            model.addAttribute("position", position);
+            model.addAttribute("hasEmployees", true);
+            return "positions/delete";
+        }
+
         if(positionService.existsById(id)){
             positionService.delete(id);
         }

@@ -24,7 +24,7 @@ public class Procedure {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 128, nullable = false)
+    @Column(length = 128, unique = true, nullable = false)
     @NotEmpty(message = "Введите название")
     @Size(max = 128, message = "Название не должно превышать 128 символов")
     private String name;
