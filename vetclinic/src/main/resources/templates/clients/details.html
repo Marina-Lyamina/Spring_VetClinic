@@ -21,6 +21,10 @@
             <p><strong>Email:</strong> <span th:text="${client.user.email}"></span></p>
         </div>
     </div>
+    <div class="mt-4">
+        <a class="btn btn-outline-primary" th:href="@{/clients/update/{id}(id=${client.id})}">Редактировать</a>
+        <a class="btn btn-outline-danger" th:href="@{/clients/delete/{id}(id=${client.id})}">Удалить</a>
+    </div>
     <h2 class="my-4">Питомцы клиента</h2>
     <a th:href="@{/animals/create(clientId=${client.id})}" class="btn btn-outline-success mb-3">Добавить питомца</a>
     <table class="table table-bordered">
@@ -39,9 +43,8 @@
             <td style="width: 25%;" th:text="${animal.name}"></td>
             <td style="width: 25%;" th:text="${animal.animalType.name}"></td>
             <td style="width: 25%;" th:text="${animal.breed}"></td>
-            <td class="text-nowrap text-right">
+            <td class="text-nowrap text-center">
                 <a class="btn btn-outline-info" th:href="@{/animals/details/{id}(id=${animal.id})}">Подробнее</a>
-                <a class="btn btn-outline-primary" th:href="@{/animals/update/{id}(id=${animal.id})}">Редактировать</a>
                 <a class="btn btn-outline-danger" th:href="@{/animals/delete/{id}(id=${animal.id})}">Удалить</a>
             </td>
         </tr>

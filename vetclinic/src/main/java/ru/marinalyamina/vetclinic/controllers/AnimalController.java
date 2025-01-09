@@ -6,15 +6,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.marinalyamina.vetclinic.models.dtos.CreateAnimalDTO;
 import ru.marinalyamina.vetclinic.models.dtos.UpdateAnimalDTO;
-import ru.marinalyamina.vetclinic.models.entities.Animal;
-import ru.marinalyamina.vetclinic.models.entities.AnimalType;
-import ru.marinalyamina.vetclinic.models.entities.Client;
+import ru.marinalyamina.vetclinic.models.entities.*;
 import ru.marinalyamina.vetclinic.services.AnimalService;
 import ru.marinalyamina.vetclinic.services.AnimalTypeService;
 import ru.marinalyamina.vetclinic.services.ClientService;
+import ru.marinalyamina.vetclinic.services.FileService;
+import ru.marinalyamina.vetclinic.utils.FileManager;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
@@ -24,12 +27,14 @@ public class AnimalController {
     private final AnimalService animalService;
     private final ClientService clientService;
     private final AnimalTypeService animalTypeService;
+    private final FileService fileService;
 
     @Autowired
-    public AnimalController(AnimalService animalService, ClientService clientService, AnimalTypeService animalTypeService) {
+    public AnimalController(AnimalService animalService, ClientService clientService, AnimalTypeService animalTypeService, FileService fileService) {
         this.animalService = animalService;
         this.clientService = clientService;
         this.animalTypeService = animalTypeService;
+        this.fileService = fileService;
     }
 
     @GetMapping("/details/{id}")
@@ -40,11 +45,19 @@ public class AnimalController {
         }
 
         Animal animal = animalOptional.get();
-
-        String imagePath = "/files/" + (animal.getMainImage() != null ? animal.getMainImage().getName() : "default.jpg");
-        model.addAttribute("imagePath", imagePath);
-
         model.addAttribute("animal", animal);
+
+        try{
+            if(animal.getMainImage() == null){
+                model.addAttribute("filePhoto", FileManager.getBaseFile("defaultAnimal.jpg"));
+            }
+            else{
+                model.addAttribute("filePhoto", FileManager.getFile(animal.getMainImage().getName()));
+            }
+        }
+        catch(Exception e){
+            return "redirect:/clients/details" + animal.getClient().getId();
+        }
         return "animals/details";
     }
 
@@ -179,5 +192,64 @@ public class AnimalController {
 
         animalService.delete(animalToDelete.getId());
         return "redirect:/clients/details/" + animalToDelete.getClient().getId();
+    }
+
+    @GetMapping("/updatePhoto/{id}")
+    public String updatePhotoGet(@PathVariable("id") Long id, Model model) {
+        Optional<Animal> optionalAnimal = animalService.getById(id);
+        if (optionalAnimal.isEmpty()) {
+            return "redirect:/animals/all";
+        }
+
+        model.addAttribute("animalId", id);
+
+        return "animals/updatePhoto";
+    }
+
+    @PostMapping("/updatePhoto/{id}")
+    public String updatePhotoPost(Model model, @PathVariable("id") Long id, @RequestParam("image") MultipartFile file) {
+        Optional<Animal> optionalAnimal = animalService.getById(id);
+
+        if (optionalAnimal.isEmpty()) {
+            return "redirect:/animals/all";
+        }
+
+        Animal animal = optionalAnimal.get();
+        DbFile dbFile = animal.getMainImage();
+
+        if (dbFile == null){
+            dbFile = new DbFile();
+        }
+        else {
+            try {
+                FileManager.deleteFile(dbFile.getName());
+            } catch (IOException e) {
+                return "redirect:/animals/details/" + id;
+
+            }
+        }
+
+        String fileName = file.getOriginalFilename();
+        String extension = ".jpg";
+        int index = fileName.lastIndexOf('.');
+        if (index > 0 && index < fileName.length() - 1) {
+            extension = fileName.substring(index + 1);
+        }
+
+        dbFile.setName(FileManager.createFileName(extension));
+        dbFile.setDate(LocalDateTime.now());
+
+        try {
+            FileManager.saveFile(dbFile.getName(), file.getBytes());
+        } catch (IOException e) {
+            return "redirect:/animals/details/" + id;
+        }
+
+        fileService.update(dbFile);
+
+        animal.setMainImage(dbFile);
+        animalService.update(animal);
+
+        return "redirect:/animals/details/" + id;
     }
 }

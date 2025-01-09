@@ -30,7 +30,6 @@
       <td th:text="${employee.position.name}"></td>
       <td class="text-nowrap text-right">
         <a class="btn btn-outline-info" th:href="@{/employees/details/{id}(id=${employee.id})}">Подробнее</a>
-        <a class="btn btn-outline-primary" th:href="@{/employees/update/{id}(id=${employee.id})}">Редактировать</a>
         <a class="btn btn-outline-danger" th:href="@{/employees/delete/{id}(id=${employee.id})}">Удалить</a>
       </td>
     </tr>

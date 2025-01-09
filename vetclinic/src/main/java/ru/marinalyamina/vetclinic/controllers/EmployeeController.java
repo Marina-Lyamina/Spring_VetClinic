@@ -1,22 +1,26 @@
 package ru.marinalyamina.vetclinic.controllers;
 
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.marinalyamina.vetclinic.models.dtos.UpdateEmployeeDTO;
 import ru.marinalyamina.vetclinic.models.dtos.UpdateUserDTO;
-import ru.marinalyamina.vetclinic.models.entities.Client;
-import ru.marinalyamina.vetclinic.models.entities.Employee;
-import ru.marinalyamina.vetclinic.models.entities.Position;
-import ru.marinalyamina.vetclinic.models.entities.User;
+import ru.marinalyamina.vetclinic.models.entities.*;
 import ru.marinalyamina.vetclinic.models.enums.Role;
 import ru.marinalyamina.vetclinic.services.EmployeeService;
+import ru.marinalyamina.vetclinic.services.FileService;
 import ru.marinalyamina.vetclinic.services.PositionService;
 import ru.marinalyamina.vetclinic.services.UserService;
+import ru.marinalyamina.vetclinic.utils.FileManager;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -28,12 +32,14 @@ public class EmployeeController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final PositionService positionService;
+    private final FileService fileService;
 
-    public EmployeeController(EmployeeService employeeService, UserService userService, PasswordEncoder passwordEncoder, PositionService positionService){
+    public EmployeeController(EmployeeService employeeService, UserService userService, PasswordEncoder passwordEncoder, PositionService positionService, FileService fileService){
         this.employeeService = employeeService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.positionService = positionService;
+        this.fileService = fileService;
     }
 
     @GetMapping("/all")
@@ -50,11 +56,20 @@ public class EmployeeController {
         }
 
         Employee employee = optionalEmployee.get();
-
-        String imagePath = "/files/" + (employee.getMainImage() != null ? employee.getMainImage().getName() : "default.jpg");
-        model.addAttribute("imagePath", imagePath);
-
         model.addAttribute("employee", employee);
+
+        try{
+            if(employee.getMainImage() == null){
+                model.addAttribute("filePhoto", FileManager.getBaseFile("defaultEmployee.jpg"));
+            }
+            else{
+                model.addAttribute("filePhoto", FileManager.getFile(employee.getMainImage().getName()));
+            }
+        }
+        catch(Exception e){
+            return "redirect:/employees/all";
+        }
+
         return "employees/details";
     }
 
@@ -206,4 +221,61 @@ public class EmployeeController {
         return "redirect:/employees/all";
     }
 
+    @GetMapping("/updatePhoto/{id}")
+    public String updatePhotoGet(@PathVariable("id") Long id, Model model) {
+        Optional<Employee> optionalEmployee = employeeService.getById(id);
+        if (optionalEmployee.isEmpty()) {
+            return "redirect:/employees/all";
+        }
+        model.addAttribute("employeeId", id);
+
+        return "employees/updatePhoto";
+    }
+
+    @PostMapping("/updatePhoto/{id}")
+    public String updatePhotoPost(Model model, @PathVariable("id") Long id, @RequestParam("image") MultipartFile file) {
+        Optional<Employee> optionalEmployee = employeeService.getById(id);
+
+        if (optionalEmployee.isEmpty()) {
+            return "redirect:/employees/all";
+        }
+
+        Employee employee = optionalEmployee.get();
+        DbFile dbFile = employee.getMainImage();
+
+        if (dbFile == null){
+            dbFile = new DbFile();
+        }
+        else {
+            try {
+                FileManager.deleteFile(dbFile.getName());
+            } catch (IOException e) {
+                return "redirect:/employees/details/" + id;
+
+            }
+        }
+
+        String fileName = file.getOriginalFilename();
+        String extension = ".jpg";
+        int index = fileName.lastIndexOf('.');
+        if (index > 0 && index < fileName.length() - 1) {
+            extension = fileName.substring(index + 1);
+        }
+
+        dbFile.setName(FileManager.createFileName(extension));
+        dbFile.setDate(LocalDateTime.now());
+
+        try {
+            FileManager.saveFile(dbFile.getName(), file.getBytes());
+        } catch (IOException e) {
+            return "redirect:/employees/details/" + id;
+        }
+
+        fileService.update(dbFile);
+
+        employee.setMainImage(dbFile);
+        employeeService.update(employee);
+
+        return "redirect:/employees/details/" + id;
+    }
 }

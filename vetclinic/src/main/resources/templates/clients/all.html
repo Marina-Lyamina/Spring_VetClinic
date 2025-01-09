@@ -32,9 +32,8 @@
       <td th:text="${#temporals.format(client.user.birthday, 'dd.MM.yyyy')}"></td>
       <td th:text="${client.user.phone}"></td>
       <td th:text="${client.user.email}"></td>
-      <td class="text-nowrap text-right">
+      <td class="text-nowrap text-center">
         <a class="btn btn-outline-info" th:href="@{/clients/details/{id}(id=${client.id})}">Подробнее</a>
-        <a class="btn btn-outline-primary" th:href="@{/clients/update/{id}(id=${client.id})}">Редактировать</a>
         <a class="btn btn-outline-danger" th:href="@{/clients/delete/{id}(id=${client.id})}">Удалить</a>
       </td>
     </tr>

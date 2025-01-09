@@ -16,7 +16,7 @@
     <div class="row">
         <!-- Левая колонка для фотографии -->
         <div class="col-md-4">
-            <img th:src="@{${imagePath}}" class="img-fluid rounded" alt="Фото питомца">
+            <img width="200" th:src="|data:image/jpeg;base64,${filePhoto}|"/>
         </div>
         <!-- Правая колонка для информации о питомце -->
         <div class="col-md-8">
@@ -31,6 +31,11 @@
             </div>
         </div>
     </div>
+    <div class="mt-4">
+        <a class="btn btn-outline-primary" th:href="@{/animals/update/{id}(id=${animal.id})}">Редактировать</a>
+        <a class="btn btn-outline-primary" th:href="@{/animals/updatePhoto/{id}(id=${animal.id})}">Редактировать фото</a>
+        <a class="btn btn-outline-danger" th:href="@{/animals/delete/{id}(id=${animal.id})}">Удалить</a>
+    </div>
 
     <h2 class="my-4">Прошедшие приёмы</h2>
     <table class="table table-bordered">
@@ -38,7 +43,7 @@
         <tr>
             <th>#</th>
             <th style="width: 15%;">Дата</th>
-            <th style="width: 48%;">Сотрудник, должность</th>
+            <th style="width: 48%;">Сотрудник (должность)</th>
             <th> </th>
         </tr>
         </thead>
@@ -49,8 +54,7 @@
             <td>
                 <ul class="list-unstyled">
                     <li th:each="employee : ${appointment.employees}">
-                        <span th:text="${employee.user.getFIO()}"></span>,
-                        <span th:text="${#strings.toLowerCase(employee.position.name)}"></span>
+                        <span th:text="${employee.user.getFIO()}"></span> (<span th:text="${#strings.toLowerCase(employee.position.name)}"></span>)
                     </li>
                 </ul>
             </td>

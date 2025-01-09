@@ -70,7 +70,7 @@
             <div class="text-danger" th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}"></div>
         </div>
         <button type="submit" class="btn btn-outline-success">Сохранить</button>
-        <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='/employees/all'">Отмена</button>
+        <button type="button" class="btn btn-outline-secondary" th:onclick="'window.location.href=\'/employees/details/' + ${employee.id} + '\';'">Отмена</button>
     </form>
 </div>
 

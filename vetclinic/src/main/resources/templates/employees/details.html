@@ -16,7 +16,7 @@
     <div class="row">
         <!-- Левая колонка для фотографии -->
         <div class="col-md-4">
-            <img th:src="@{${imagePath}}" class="img-fluid rounded" alt="Фото сотрудника">
+            <img width="200" th:src="|data:image/jpeg;base64,${filePhoto}|"/>
         </div>
         <!-- Правая колонка для информации о сотруднике -->
         <div class="col-md-8">
@@ -32,6 +32,12 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="mt-4">
+        <a class="btn btn-outline-primary" th:href="@{/employees/update/{id}(id=${employee.id})}">Редактировать</a>
+        <a class="btn btn-outline-primary" th:href="@{/employees/updatePhoto/{id}(id=${employee.id})}">Редактировать фото</a>
+        <a class="btn btn-outline-danger" th:href="@{/employees/delete/{id}(id=${employee.id})}">Удалить</a>
     </div>
 
     <div class="mt-4">

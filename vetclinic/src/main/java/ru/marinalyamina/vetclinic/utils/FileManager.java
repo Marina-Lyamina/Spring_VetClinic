@@ -10,7 +10,8 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 public class FileManager {
-    public static String rootDir = System.getProperty("user.dir") + "\\files";;
+    public static String rootDir = System.getProperty("user.dir") + "\\files";
+    public static String rootBaseDir = System.getProperty("user.dir") + "\\baseFiles";
 
 
     public static void checkRootDir() {
@@ -51,5 +52,14 @@ public class FileManager {
         Path filePath = Paths.get(rootDir, fileName);
         File file = new File(filePath.toUri());
         file.delete();
+    }
+
+    public static String getBaseFile(String fileName) throws IOException {
+        Path filePath = Paths.get(rootBaseDir, fileName);
+
+        File file = new File(filePath.toUri());
+        byte[] fileContent = Files.readAllBytes(file.toPath());
+
+        return Base64.encodeBase64String(fileContent);
     }
 }
