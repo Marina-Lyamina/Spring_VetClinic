@@ -18,21 +18,35 @@ public class WebSecurityConfig {
     SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
         http.
                 authorizeHttpRequests((auth) -> auth
-                        .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/api/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.PUT, "/api/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("USER")
 
-                        .anyRequest().permitAll())
+                        .requestMatchers("/animaltypes/create/**").hasRole("ADMIN")
+                        .requestMatchers("/animaltypes/update/**").hasRole("ADMIN")
+                        .requestMatchers("/animaltypes/delete/**").hasRole("ADMIN")
+
+                        .requestMatchers("/positions/create/**").hasRole("ADMIN")
+                        .requestMatchers("/positions/update/**").hasRole("ADMIN")
+                        .requestMatchers("/positions/delete/**").hasRole("ADMIN")
+
+                        .requestMatchers("/procedures/create/**").hasRole("ADMIN")
+                        .requestMatchers("/procedures/update/**").hasRole("ADMIN")
+                        .requestMatchers("/procedures/delete/**").hasRole("ADMIN")
+
+                        .requestMatchers("/employees/create/**").hasRole("ADMIN")
+                        .requestMatchers("/employees/update/**").hasRole("ADMIN")
+                        .requestMatchers("/employees/delete/**").hasRole("ADMIN")
+                        .requestMatchers("/employees/changeRole/**").hasRole("ADMIN")
+
+                        .requestMatchers("/appointments/delete/**").hasRole("ADMIN")
+
+                        .anyRequest().authenticated())
+
                 .csrf((csrf) -> csrf.disable())
                 .formLogin(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults())
-
-                /*.formLogin((form) -> form
-                        .loginPage("/login")
-                        .permitAll()
-                )
-                .logout((logout) -> logout.permitAll())*/;
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }

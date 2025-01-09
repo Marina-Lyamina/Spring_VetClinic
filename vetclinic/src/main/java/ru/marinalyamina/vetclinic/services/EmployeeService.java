@@ -1,5 +1,6 @@
 package ru.marinalyamina.vetclinic.services;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import ru.marinalyamina.vetclinic.models.entities.Employee;
@@ -48,4 +49,5 @@ public class EmployeeService {
     public void delete(Long id) {
         employeeRepository.deleteById(id);
     }
+
 }

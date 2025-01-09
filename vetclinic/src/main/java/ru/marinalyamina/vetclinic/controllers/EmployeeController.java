@@ -1,7 +1,6 @@
 package ru.marinalyamina.vetclinic.controllers;
 
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +18,6 @@ import ru.marinalyamina.vetclinic.services.UserService;
 import ru.marinalyamina.vetclinic.utils.FileManager;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -57,6 +55,7 @@ public class EmployeeController {
 
         Employee employee = optionalEmployee.get();
         model.addAttribute("employee", employee);
+        model.addAttribute("isAdmin", employee.getUser().getRole() == Role.ROLE_ADMIN);
 
         try{
             if(employee.getMainImage() == null){
@@ -278,4 +277,27 @@ public class EmployeeController {
 
         return "redirect:/employees/details/" + id;
     }
+
+    @GetMapping("/changeRole/{id}")
+    public String changeRole(@PathVariable("id") Long id) {
+        Optional<Employee> optionalEmployee = employeeService.getById(id);
+        if (optionalEmployee.isEmpty()) {
+            return "redirect:/employees/all";
+        }
+
+        Employee employee = optionalEmployee.get();
+        User user = employee.getUser();
+
+        if(user.getRole() == Role.ROLE_ADMIN){
+            user.setRole(Role.ROLE_OPERATOR);
+        }
+        else{
+            user.setRole(Role.ROLE_ADMIN);
+        }
+
+        userService.update(user);
+
+        return "redirect:/employees/details/" + id;
+    }
+
 }

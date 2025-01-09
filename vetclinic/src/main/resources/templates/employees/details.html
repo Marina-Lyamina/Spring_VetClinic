@@ -22,6 +22,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
+                    <p th:if="${isAdmin}"><strong>Роль в системе:</strong> <span>Админ</span></p>
+                    <p th:if="${!isAdmin}"><strong>Роль в системе:</strong> <span>Оператор</span></p>
                     <p><strong>ФИО:</strong> <span th:text="${employee.user.getFIO()}"></span></p>
                     <p><strong>Должность:</strong> <span th:text="${employee.position.name}"></span></p>
                     <p><strong>Дата рождения:</strong> <span th:text="${#temporals.format(employee.user.birthday, 'dd.MM.yyyy')}"></span></p>
@@ -37,6 +39,8 @@
     <div class="mt-4">
         <a class="btn btn-outline-primary" th:href="@{/employees/update/{id}(id=${employee.id})}">Редактировать</a>
         <a class="btn btn-outline-primary" th:href="@{/employees/updatePhoto/{id}(id=${employee.id})}">Редактировать фото</a>
+        <a th:if="${isAdmin}" class="btn btn-outline-danger" th:href="@{/employees/changeRole/{id}(id=${employee.id})}">Разжаловать до оператора</a>
+        <a th:if="${!isAdmin}" class="btn btn-outline-success" th:href="@{/employees/changeRole/{id}(id=${employee.id})}">Повысить до админа</a>
         <a class="btn btn-outline-danger" th:href="@{/employees/delete/{id}(id=${employee.id})}">Удалить</a>
     </div>
 
