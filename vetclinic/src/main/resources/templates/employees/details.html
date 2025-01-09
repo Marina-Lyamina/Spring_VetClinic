@@ -40,6 +40,31 @@
         <a class="btn btn-outline-danger" th:href="@{/employees/delete/{id}(id=${employee.id})}">Удалить</a>
     </div>
 
+    <h2 class="my-4">Приемы</h2>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>#</th>
+            <th style="width: 20%;">Дата</th>
+            <th style="width: 40%;">Клиент</th>
+            <th style="width: 40%;">Питомец</th>
+            <th> </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="appointment, iterStat : ${employee.appointments}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${#temporals.format(appointment.date, 'dd.MM.yyyy HH:mm')}"></td>
+            <td th:text="${appointment.animal.client.user.getFIO()}"></td>
+            <td th:text="${appointment.animal.name}"></td>
+            <td class="text-nowrap text-center">
+                <a class="btn btn-outline-info" th:href="@{/appointments/details/{id}(id=${appointment.id})}">Подробнее</a>
+                <a class="btn btn-outline-danger" th:href="@{/appointments/delete/{id}(id=${appointment.id})}">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
     <div class="mt-4">
         <a href="/employees/all">Назад к списку сотрудников</a>
     </div>

@@ -37,13 +37,14 @@
         <a class="btn btn-outline-danger" th:href="@{/animals/delete/{id}(id=${animal.id})}">Удалить</a>
     </div>
 
-    <h2 class="my-4">Прошедшие приёмы</h2>
+    <h2 class="my-4">Приемы</h2>
+    <a th:href="@{/appointments/create(animalId=${animal.id})}" class="btn btn-outline-success mb-3">Добавить прием</a>
     <table class="table table-bordered">
         <thead class="thead-light">
         <tr>
             <th>#</th>
-            <th style="width: 15%;">Дата</th>
-            <th style="width: 48%;">Сотрудник (должность)</th>
+            <th style="width: 20%;">Дата</th>
+            <th style="width: 60%;">Сотрудник (должность)</th>
             <th> </th>
         </tr>
         </thead>
@@ -60,7 +61,6 @@
             </td>
             <td class="text-nowrap text-center">
                 <a class="btn btn-outline-info" th:href="@{/appointments/details/{id}(id=${appointment.id})}">Подробнее</a>
-                <a class="btn btn-outline-primary" th:href="@{/appointments/update/{id}(id=${appointment.id})}">Редактировать</a>
                 <a class="btn btn-outline-danger" th:href="@{/appointments/delete/{id}(id=${appointment.id})}">Удалить</a>
             </td>
         </tr>

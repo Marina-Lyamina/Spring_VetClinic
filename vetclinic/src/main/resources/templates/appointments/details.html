@@ -1,10 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Подробнее</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </head>
-<body>
 
+<body>
+<div th:replace="~{main_menu :: navigation}"></div>
+<div class="container">
+    <h1  class="my-4">Подробнее о приеме</h1>
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Дата:</strong> <span th:text="${#temporals.format(appointment.date, 'dd.MM.yyyy HH:mm')}"></span></p>
+            <p><strong>Врачи:</strong></p>
+            <ul class="list-unstyled">
+                <li th:each="employee : ${appointment.employees}">
+                    - <span th:text="${employee.user.getFIO()}"></span> (<span th:text="${#strings.toLowerCase(employee.position.name)}"></span>)
+                </li>
+            </ul>
+            <p><strong>Клиент:</strong> <span th:text="${appointment.animal.client.user.getFIO()}"></span></p>
+            <p><strong>Питомец:</strong> <span th:text="${appointment.animal.name}"></span></p>
+            <p><strong>Причина:</strong> <span th:text="${appointment.reason}"></span></p>
+            <p><strong>Диагноз:</strong> <span th:text="${appointment.diagnosis}"></span></p>
+            <p><strong>Рекомендации:</strong> <span th:text="${appointment.medicalPrescription}"></span></p>
+<!--            <p><strong>Файлы:</strong></p>-->
+        </div>
+    </div>
+    <div class="mt-4">
+        <a class="btn btn-outline-primary" th:href="@{/appointments/update/{id}(id=${appointment.id})}">Редактировать</a>
+        <a class="btn btn-outline-danger" th:href="@{/appointments/delete/{id}(id=${appointment.id})}">Удалить</a>
+    </div>
+    <h2 class="mt-5 mb-4">Оказанные услуги</h2>
+    <a th:href="@{/appointments/addProcedure/{id}(id=${appointment.id})}" class="btn btn-outline-success mb-3">Добавить услугу</a>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>#</th>
+            <th style="width: 60%;">Название</th>
+            <th style="width: 20%;">Цена</th>
+            <th> </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="procedure, iterStat : ${appointment.procedures}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${procedure.name}"></td>
+            <td th:text="${procedure.price}"></td>
+            <td class="text-nowrap text-center">
+                <a class="btn btn-outline-danger" th:href="@{/appointments/deleteProcedure(appointmentId=${appointment.id}, procedureId=${procedure.id})}">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 class="mt-5 mb-4">Файлы</h2>
+    <a th:href="@{/appointments/addPhoto/{id}(id=${appointment.id})}" class="btn btn-outline-success mb-3">Добавить фото</a>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>#</th>
+            <th style="width: 100%;">Фото</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="filePhoto, iterStat : ${filesPhoto}">
+            <td th:text="${iterStat.count}"></td>
+            <td class="text-center">
+                <img width="300" th:src="|data:image/jpeg;base64,${filePhoto}|"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-4">
+        <a th:href="@{/animals/details/{id}(id=${appointment.animal.id})}">Назад к питомцу</a>
+    </div>
+</div>
 </body>
 </html>

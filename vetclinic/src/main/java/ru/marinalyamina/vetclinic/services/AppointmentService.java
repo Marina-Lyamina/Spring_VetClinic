@@ -3,6 +3,7 @@ package ru.marinalyamina.vetclinic.services;
 import org.springframework.stereotype.Service;
 
 import ru.marinalyamina.vetclinic.models.entities.Appointment;
+import ru.marinalyamina.vetclinic.models.entities.User;
 import ru.marinalyamina.vetclinic.repositories.AppointmentRepository;
 
 import java.util.List;
@@ -27,10 +28,28 @@ public class AppointmentService {
     }
 
     public Appointment create(Appointment appointment) {
+        cleanEmptyFields(appointment);
         return appointmentRepository.save(appointment);
     }
 
     public void delete(Long id) {
         appointmentRepository.deleteById(id);
+    }
+
+    public void update(Appointment appointment) {
+        cleanEmptyFields(appointment);
+        appointmentRepository.save(appointment);
+    }
+
+    private void cleanEmptyFields(Appointment appointment) {
+        if (appointment.getReason() != null && appointment.getReason().isBlank()) {
+            appointment.setReason(null);
+        }
+        if (appointment.getDiagnosis() != null && appointment.getDiagnosis().isBlank()) {
+            appointment.setDiagnosis(null);
+        }
+        if (appointment.getMedicalPrescription() != null && appointment.getMedicalPrescription().isBlank()) {
+            appointment.setMedicalPrescription(null);
+        }
     }
 }
