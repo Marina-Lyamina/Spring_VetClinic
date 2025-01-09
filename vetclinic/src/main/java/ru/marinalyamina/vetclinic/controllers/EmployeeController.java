@@ -19,6 +19,7 @@ import ru.marinalyamina.vetclinic.utils.FileManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -54,6 +55,14 @@ public class EmployeeController {
         }
 
         Employee employee = optionalEmployee.get();
+
+        List<Schedule> futureSchedules = employee.getSchedules().stream()
+                .filter(schedule -> schedule.getDate().isAfter(LocalDateTime.now()))
+                .sorted(Comparator.comparing(Schedule::getDate))
+                .toList();
+
+        employee.setSchedules(futureSchedules);
+
         model.addAttribute("employee", employee);
         model.addAttribute("isAdmin", employee.getUser().getRole() == Role.ROLE_ADMIN);
 

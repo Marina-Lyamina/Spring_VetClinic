@@ -37,6 +37,33 @@
         <a class="btn btn-outline-danger" th:href="@{/animals/delete/{id}(id=${animal.id})}">Удалить</a>
     </div>
 
+    <h2 class="my-4">Записи на приемы</h2>
+    <a th:href="@{/schedules/createForAnimal(animalId=${animal.id})}" class="btn btn-outline-success mb-3">Добавить запись на прием</a>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>#</th>
+            <th style="width: 20%;">Дата</th>
+            <th style="width: 60%;">Сотрудник (должность)</th>
+            <th> </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="schedule, iterStat : ${animal.schedules}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${#temporals.format(schedule.date, 'dd.MM.yyyy HH:mm')}"></td>
+            <td>
+                <span th:text="${schedule.employee.user.getFIO()}"></span>
+                (<span th:text="${#strings.toLowerCase(schedule.employee.position.name)}"></span>)
+            </td>
+
+            <td class="text-nowrap text-center">
+                <a class="btn btn-outline-danger" th:href="@{/schedules/deleteForAnimal/{id}(id=${schedule.id})}">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
     <h2 class="my-4">Приемы</h2>
     <a th:href="@{/appointments/create(animalId=${animal.id})}" class="btn btn-outline-success mb-3">Добавить прием</a>
     <table class="table table-bordered">

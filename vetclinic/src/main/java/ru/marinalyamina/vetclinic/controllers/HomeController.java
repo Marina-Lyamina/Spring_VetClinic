@@ -3,9 +3,14 @@ package ru.marinalyamina.vetclinic.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import ru.marinalyamina.vetclinic.models.entities.Schedule;
 import ru.marinalyamina.vetclinic.models.enums.Role;
 import ru.marinalyamina.vetclinic.services.EmployeeService;
 import ru.marinalyamina.vetclinic.services.UserService;
+
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -33,6 +38,14 @@ public class HomeController {
         if(employee.isEmpty()){
             return "redirect:/logout";
         }
+
+
+        List<Schedule> futureSchedules = employee.get().getSchedules().stream()
+                .filter(schedule -> schedule.getDate().isAfter(LocalDateTime.now()))
+                .sorted(Comparator.comparing(Schedule::getDate))
+                .toList();
+
+        employee.get().setSchedules(futureSchedules);
 
         model.addAttribute("employee", employee.get());
         model.addAttribute("isAdmin",  currentUser.get().getRole() == Role.ROLE_ADMIN);

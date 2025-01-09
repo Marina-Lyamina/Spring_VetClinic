@@ -44,6 +44,31 @@
         <a class="btn btn-outline-danger" th:href="@{/employees/delete/{id}(id=${employee.id})}">Удалить</a>
     </div>
 
+    <h2 class="my-4">Расписание (предстоящие записи)</h2>
+    <a th:href="@{/schedules/create(employeeId=${employee.id})}" class="btn btn-outline-success mb-3">Добавить свободную запись</a>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>#</th>
+            <th style="width: 20%;">Дата</th>
+            <th style="width: 40%;">Клиент</th>
+            <th style="width: 40%;">Питомец</th>
+            <th> </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="schedule, iterStat : ${employee.schedules}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${#temporals.format(schedule.date, 'dd.MM.yyyy HH:mm')}"></td>
+            <td th:text="${schedule.animal != null ? schedule.animal.client.user.getFIO() : ''}"></td>
+            <td th:text="${schedule.animal != null ? schedule.animal.name : ''}"></td>
+            <td class="text-nowrap text-center">
+                <a class="btn btn-outline-danger" th:href="@{/schedules/delete/{id}(id=${schedule.id})}">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
     <h2 class="my-4">Приемы</h2>
     <table class="table table-bordered">
         <thead class="thead-light">

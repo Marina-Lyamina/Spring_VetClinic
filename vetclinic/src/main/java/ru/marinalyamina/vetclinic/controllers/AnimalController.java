@@ -18,6 +18,8 @@ import ru.marinalyamina.vetclinic.utils.FileManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -45,6 +47,14 @@ public class AnimalController {
         }
 
         Animal animal = animalOptional.get();
+
+        List<Schedule> futureSchedules = animal.getSchedules().stream()
+                .filter(schedule -> schedule.getDate().isAfter(LocalDateTime.now()))
+                .sorted(Comparator.comparing(Schedule::getDate))
+                .toList();
+
+        animal.setSchedules(futureSchedules);
+
         model.addAttribute("animal", animal);
 
         try{

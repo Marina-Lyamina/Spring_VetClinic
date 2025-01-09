@@ -19,7 +19,25 @@
     <p><strong>ФИО:</strong> <span th:text="${employee.user.getFIO()}"></span></p>
     <p><strong>Должность:</strong> <span th:text="${employee.position.name}"></span></p>
   </div>
-
+  <h2 class="my-4">Расписание (предстоящие записи)</h2>
+  <table class="table table-bordered">
+    <thead class="thead-light">
+    <tr>
+      <th>#</th>
+      <th style="width: 20%;">Дата</th>
+      <th style="width: 40%;">Клиент</th>
+      <th style="width: 40%;">Питомец</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="schedule, iterStat : ${employee.schedules}">
+      <td th:text="${iterStat.count}"></td>
+      <td th:text="${#temporals.format(schedule.date, 'dd.MM.yyyy HH:mm')}"></td>
+      <td th:text="${schedule.animal != null ? schedule.animal.client.user.getFIO() : ''}"></td>
+      <td th:text="${schedule.animal != null ? schedule.animal.name : ''}"></td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 </body>
 </html>

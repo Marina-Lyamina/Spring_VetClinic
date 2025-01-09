@@ -40,6 +40,9 @@ public class WebSecurityConfig {
                         .requestMatchers("/employees/delete/**").hasRole("ADMIN")
                         .requestMatchers("/employees/changeRole/**").hasRole("ADMIN")
 
+                        .requestMatchers("/schedules/create/**").hasRole("ADMIN")
+                        .requestMatchers("/schedules/delete/**").hasRole("ADMIN")
+
                         .requestMatchers("/appointments/delete/**").hasRole("ADMIN")
 
                         .anyRequest().authenticated())

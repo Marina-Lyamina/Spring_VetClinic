@@ -38,4 +38,18 @@ public class ScheduleService {
     public void createAnimalSchedule(CreateAnimalScheduleDTO animalScheduleDTO) {
         scheduleRepository.createAnimalSchedule(animalScheduleDTO.getScheduleId(), animalScheduleDTO.getAnimalId());
     }
+
+    public Schedule create(Schedule schedule){return scheduleRepository.save(schedule);}
+
+    public boolean existsById(Long id) {
+        return scheduleRepository.existsById(id);
+    }
+
+    public void delete(Long id) {
+        scheduleRepository.deleteById(id);
+    }
+
+    public void update(Schedule schedule) {
+        scheduleRepository.save(schedule);
+    }
 }
