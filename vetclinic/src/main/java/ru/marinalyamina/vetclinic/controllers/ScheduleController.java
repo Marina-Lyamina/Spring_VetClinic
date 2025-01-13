@@ -177,7 +177,7 @@ public class ScheduleController {
         var animalId = schedule.getAnimal().getId();
         schedule.setAnimal(null);
         scheduleService.update(schedule);
-        
+
         return "redirect:/animals/details/" + animalId;
     }
 

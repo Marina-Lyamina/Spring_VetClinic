@@ -1,6 +1,10 @@
 package ru.marinalyamina.vetclinic.controllers;
 
 import jakarta.validation.Valid;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +18,8 @@ import ru.marinalyamina.vetclinic.models.enums.Role;
 import ru.marinalyamina.vetclinic.services.ClientService;
 import ru.marinalyamina.vetclinic.services.UserService;
 
+import java.io.ByteArrayOutputStream;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -169,4 +175,61 @@ public class ClientController {
         clientService.delete(clientToDelete.getId());
         return "redirect:/clients/all";
     }
+
+    @GetMapping("/report")
+    public ResponseEntity<byte[]> generateClientReportSeparatedFIO() {
+        List<Client> clients = clientService.getAll();
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Клиенты");
+
+            Row headerRow = sheet.createRow(0);
+            String[] headers = {"#", "Фамилия", "Имя", "Отчество", "Дата рождения", "Номер телефона", "Email"};
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+                cell.setCellStyle(createHeaderCellStyle(workbook));
+            }
+
+            int rowIndex = 1;
+            for (Client client : clients) {
+                Row row = sheet.createRow(rowIndex++);
+                row.createCell(0).setCellValue(rowIndex - 1); // Номер
+                if (client.getUser() != null) {
+                    row.createCell(1).setCellValue(client.getUser().getSurname() != null ? client.getUser().getSurname() : "");
+                    row.createCell(2).setCellValue(client.getUser().getName() != null ? client.getUser().getName() : "");
+                    row.createCell(3).setCellValue(client.getUser().getPatronymic() != null ? client.getUser().getPatronymic() : "");
+                    row.createCell(4).setCellValue(client.getUser().getBirthday() != null ?
+                            client.getUser().getBirthday().toString() : "");
+                    row.createCell(5).setCellValue(client.getUser().getPhone() != null ? client.getUser().getPhone() : "");
+                    row.createCell(6).setCellValue(client.getUser().getEmail() != null ? client.getUser().getEmail() : "");
+                }
+            }
+
+            for (int i = 0; i < headers.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=clients_report.xlsx")
+                    .body(outputStream.toByteArray());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    private CellStyle createHeaderCellStyle(Workbook workbook) {
+        CellStyle style = workbook.createCellStyle();
+        Font font = workbook.createFont();
+        font.setBold(true);
+        style.setFont(font);
+        return style;
+    }
+
+
 }
